@@ -17,6 +17,8 @@
       --tag-bg: #f1f5f9;
       --drive-tag-bg: #e0f2fe;
       --drive-tag-text: #0369a1;
+      --gas-tag-bg: #fef3c7;
+      --gas-tag-text: #b45309;
       --shadow: 0 4px 12px rgba(0,0,0,0.06);
     }
     @media (prefers-color-scheme: dark) {
@@ -32,6 +34,8 @@
         --tag-bg: #334155;
         --drive-tag-bg: #0c4a6e;
         --drive-tag-text: #bae6fd;
+        --gas-tag-bg: #78350f;
+        --gas-tag-text: #fef3c7;
         --shadow: 0 4px 12px rgba(0,0,0,0.3);
       }
     }
@@ -93,7 +97,6 @@
     .countdown-num { font-size: 1.4rem; font-weight: 800; font-variant-numeric: tabular-nums; }
     .countdown-label { font-size: 0.65rem; text-transform: uppercase; opacity: 0.8; }
     
-    /* 模块标题 */
     .sec-title {
       font-size: 1.1rem;
       font-weight: 700;
@@ -103,11 +106,17 @@
       gap: 6px;
     }
     
-    /* 地图总览 */
     .map-box { text-align: center; overflow: hidden; }
     svg { width: 100%; height: auto; display: block; }
     
-    /* 订票确认单 */
+    /* 每日专属拓扑微图 */
+    .mini-svg-map {
+      background: var(--tag-bg);
+      border-radius: 8px;
+      padding: 6px 12px;
+      margin-bottom: 12px;
+    }
+    
     .booking-grid { display: flex; flex-direction: column; gap: 10px; }
     .booking-item {
       padding: 12px;
@@ -118,7 +127,6 @@
     .booking-head { font-weight: 700; display: flex; justify-content: space-between; margin-bottom: 4px; }
     .booking-detail { color: var(--text-sub); line-height: 1.4; }
     
-    /* 逐日日程 */
     .day-card { margin-bottom: 16px; }
     .day-header {
       display: flex;
@@ -138,7 +146,7 @@
     .timeline-row {
       display: flex;
       gap: 12px;
-      margin-bottom: 12px;
+      margin-bottom: 10px;
       font-size: 0.85rem;
     }
     .time-col {
@@ -157,7 +165,6 @@
       text-underline-offset: 3px;
     }
     
-    /* 开车耗时小徽章 */
     .drive-badge {
       display: inline-flex;
       align-items: center;
@@ -168,13 +175,24 @@
       font-weight: 600;
       padding: 2px 7px;
       border-radius: 6px;
-      margin: 4px 0 6px;
-      width: fit-content;
+      margin: 2px 0 4px;
+    }
+    .gas-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background-color: var(--gas-tag-bg);
+      color: var(--gas-tag-text);
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 6px;
+      margin: 2px 0 4px;
     }
     .drive-connector {
       display: flex;
       align-items: center;
-      margin: -4px 0 6px 62px;
+      margin: -2px 0 6px 62px;
     }
     
     .tag-must-book {
@@ -198,7 +216,6 @@
       margin-left: 4px;
     }
     
-    /* 待办与贴士 */
     ul.checklist { list-style: none; }
     ul.checklist li {
       padding: 8px 0;
@@ -232,92 +249,108 @@
     </div>
   </div>
 
-  <!-- 2. 行程手绘总览图 (SVG) -->
-  <div class="sec-title">🗺️ 自驾环线拓扑图</div>
+  <!-- 2. 全局手绘总览图 (SVG) -->
+  <div class="sec-title">🗺️ 自驾环线总览拓扑图</div>
   <div class="card map-box">
     <svg viewBox="0 0 360 210" xmlns="http://www.w3.org/2000/svg">
       <path d="M 40 160 Q 80 140 100 130 T 160 100 T 220 70 T 310 50" fill="none" stroke="var(--border)" stroke-width="6" stroke-linecap="round"/>
+      <!-- Queenstown -->
       <circle cx="45" cy="160" r="7" fill="#0284c7" />
-      <text x="45" y="180" font-size="10" fill="currentColor" text-anchor="middle" font-weight="bold">Queenstown(3N)</text>
+      <text x="45" y="180" font-size="10" fill="currentColor" text-anchor="middle" font-weight="bold">Queenstown (3N)</text>
+      <!-- Wanaka -->
       <path d="M 45 160 L 95 130" stroke="#f59e0b" stroke-width="3" stroke-dasharray="3 3"/>
       <circle cx="95" cy="130" r="6" fill="#f59e0b" />
-      <text x="95" y="120" font-size="10" fill="currentColor" text-anchor="middle" font-weight="bold">Wānaka(1N)</text>
+      <text x="95" y="120" font-size="10" fill="currentColor" text-anchor="middle" font-weight="bold">Wānaka (1N)</text>
+      <!-- Twizel -->
       <path d="M 95 130 L 165 95" stroke="#10b981" stroke-width="3"/>
       <circle cx="165" cy="95" r="6" fill="#10b981" />
-      <text x="165" y="85" font-size="10" fill="currentColor" text-anchor="middle" font-weight="bold">Twizel(2N)</text>
+      <text x="165" y="85" font-size="10" fill="currentColor" text-anchor="middle" font-weight="bold">Twizel (2N)</text>
+      <!-- Tekapo -->
       <path d="M 165 95 L 215 75" stroke="#8b5cf6" stroke-width="3"/>
       <circle cx="215" cy="75" r="6" fill="#8b5cf6" />
-      <text x="215" y="65" font-size="10" fill="currentColor" text-anchor="middle" font-weight="bold">Tekapo(1N)</text>
+      <text x="215" y="65" font-size="10" fill="currentColor" text-anchor="middle" font-weight="bold">Tekapo (1N)</text>
+      <!-- Christchurch -->
       <path d="M 215 75 L 305 45" stroke="#ef4444" stroke-width="3"/>
       <circle cx="305" cy="45" r="7" fill="#ef4444" />
-      <text x="305" y="35" font-size="10" fill="currentColor" text-anchor="middle" font-weight="bold">Christchurch(2N)</text>
-      <text x="180" y="195" font-size="9" fill="var(--text-sub)" text-anchor="middle">全线约 800+ km｜经典由南向北穿越</text>
+      <text x="305" y="35" font-size="10" fill="currentColor" text-anchor="middle" font-weight="bold">Christchurch (2N)</text>
+      <text x="180" y="195" font-size="9" fill="var(--text-sub)" text-anchor="middle">全线约 850+ km｜单向由南至北自然穿越</text>
     </svg>
   </div>
 
-  <!-- 3. 已确认大件凭证总览 (脱敏) -->
-  <div class="sec-title">📑 机票・酒店・已定项目</div>
+  <!-- 3. 已确认大件凭证 (脱敏) -->
+  <div class="sec-title">📑 机票・租车・住宿清单</div>
   <div class="card booking-grid">
     <div class="booking-item">
-      <div class="booking-head"><span>✈️ 国际段航班 (国泰/阿联酋)</span><span class="tag-booked">已出票</span></div>
+      <div class="booking-head"><span>🚗 自驾租车 (National Car Rental)</span><span class="tag-booked">已预订</span></div>
       <div class="booking-detail">
-        • 09.20 21:10 香港 HKG ➔ 09.21 11:50(+1) 奥克兰 AKL (CX113)<br>
+        • 车型：中型 SUV（三菱 Outlander 或同级）<br>
+        • 取车：09.24 18:00 皇后镇机场 (ZQN) 航站楼柜台<br>
+        • 还车：10.03 15:30 基督城机场 (CHC) 航站楼还车区
+      </div>
+    </div>
+    <div class="booking-item">
+      <div class="booking-head"><span>✈️ 航班大件 (捷星/阿联酋/国泰)</span><span class="tag-booked">已出票</span></div>
+      <div class="booking-detail">
+        • 09.24 15:00 奥克兰 AKL(D) ➔ 16:50 皇后镇 ZQN (JQ293)<br>
         • 10.03 18:20 基督城 CHC ➔ 18:40 悉尼 SYD (EK413)<br>
         • 10.04 22:20 悉尼 SYD ➔ 10.05 04:40(+1) 香港 HKG (CX138)
       </div>
     </div>
     <div class="booking-item">
-      <div class="booking-head"><span>✈️ 新西兰境内段 (捷星)</span><span class="tag-booked">已出票</span></div>
+      <div class="booking-head"><span>🏡 自驾全程住宿</span><span class="tag-booked">已确认</span></div>
       <div class="booking-detail">
-        • 09.24 15:00 奥克兰 AKL(D) ➔ 16:50 皇后镇 ZQN (JQ293)
+        • 09.24-09.27 皇后镇：<a class="loc-link" href="https://www.google.com/maps/search/?api=1&query=34+Lake+Esplanade+Queenstown">34 Lake Esplanade</a> (3晚)<br>
+        • 09.27-09.28 瓦纳卡：<a class="loc-link" href="https://www.google.com/maps/search/?api=1&query=2+Bellfield+Lane+Wānaka">2 Bellfield Lane</a> (1晚)<br>
+        • 09.28-09.30 特威泽尔：<a class="loc-link" href="https://www.google.com/maps/search/?api=1&query=44+Irishman+Drive+Twizel">44 Irishman Drive</a> (2晚)<br>
+        • 09.30-10.01 特卡波：<a class="loc-link" href="https://www.google.com/maps/search/?api=1&query=18+Edwards+Lane+Lake+Tekapo">18 Edwards Lane</a> (1晚)<br>
+        • 10.01-10.03 基督城：<a class="loc-link" href="https://www.google.com/maps/search/?api=1&query=150+Manchester+Street+Christchurch">150 Manchester Street</a> (2晚)
       </div>
     </div>
     <div class="booking-item">
-      <div class="booking-head"><span>🚗 南岛机场租车自驾</span><span class="tag-booked">已预订</span></div>
+      <div class="booking-head"><span>🎯 固定预约项目</span><span class="tag-booked">已确认</span></div>
       <div class="booking-detail">
-        • 09.24 皇后镇机场取车 ➔ 10.03 基督城机场还车（建议15:30前还车）
-      </div>
-    </div>
-    <div class="booking-item">
-      <div class="booking-head"><span>🏡 全程自驾住宿清单</span><span class="tag-booked">已确认</span></div>
-      <div class="booking-detail">
-        • 09.24-09.27 皇后镇：<a class="loc-link" href="https://www.google.com/maps/search/?api=1&query=34+Lake+Esplanade+Queenstown">34 Lake Esplanade, Queenstown</a> (3晚)<br>
-        • 09.27-09.28 瓦纳卡：<a class="loc-link" href="https://www.google.com/maps/search/?api=1&query=2+Bellfield+Lane+Wānaka">2 Bellfield Lane, Wānaka</a> (1晚)<br>
-        • 09.28-09.30 特威泽尔：<a class="loc-link" href="https://www.google.com/maps/search/?api=1&query=44+Irishman+Drive+Twizel">44 Irishman Drive, Twizel</a> (2晚)<br>
-        • 09.30-10.01 特卡波：<a class="loc-link" href="https://www.google.com/maps/search/?api=1&query=18+Edwards+Lane+Lake+Tekapo">18 Edwards Lane, Lake Tekapo</a> (1晚)<br>
-        • 10.01-10.03 基督城：<a class="loc-link" href="https://www.google.com/maps/search/?api=1&query=150+Manchester+Street+Christchurch">150 Manchester Street, Christchurch</a> (2晚)
-      </div>
-    </div>
-    <div class="booking-item">
-      <div class="booking-head"><span>🎯 硬性体验项目</span><span class="tag-booked">已确认</span></div>
-      <div class="booking-detail">
-        • 09.25 07:00 NZONE 15,000英尺跳伞 (<a class="loc-link" href="https://www.google.com/maps/search/?api=1&query=35+Shotover+Street+Queenstown">35 Shotover St</a>)<br>
-        • 09.27 13:00 Oxbow 飞碟射击 (<a class="loc-link" href="https://www.google.com/maps/search/?api=1&query=2696+Gibbston+Highway+Queenstown">2696 Gibbston Hwy</a>)
+        • 09.25 07:00 NZONE 15,000英尺极限跳伞 (<a class="loc-link" href="https://www.google.com/maps/search/?api=1&query=35+Shotover+Street+Queenstown">35 Shotover St</a>)<br>
+        • 09.27 13:00 Oxbow 飞碟射击 4人 (<a class="loc-link" href="https://www.google.com/maps/search/?api=1&query=2696+Gibbston+Highway+Queenstown">2696 Gibbston Hwy</a>)
       </div>
     </div>
   </div>
 
-  <!-- 4. 逐日详细行程 (含自驾耗时与里程标注) -->
-  <div class="sec-title">📅 逐日行程与自驾导航</div>
+  <!-- 4. 逐日行程与每日路线微拓扑图 -->
+  <div class="sec-title">📅 逐日行程与路线导航</div>
 
   <!-- Day 1 -->
   <div class="card day-card">
     <div class="day-header">
-      <div class="day-title">09.24 周四｜抵达皇后镇</div>
-      <a class="day-nav-link" target="_blank" href="https://www.google.com/maps/dir/Queenstown+Airport/34+Lake+Esplanade,+Queenstown/Fergburger/Queenstown+Gardens">🗺️ 当日全途经点导航 (全天约15km)</a>
+      <div class="day-title">09.24 周四｜落地取车・大超市补给</div>
+      <a class="day-nav-link" target="_blank" href="https://www.google.com/maps/dir/Queenstown+Airport/PAK'nSAVE+Queenstown/34+Lake+Esplanade,+Queenstown/Fergburger">🗺️ 当日全途经点导航</a>
+    </div>
+    <!-- Day 1 拓扑 -->
+    <div class="mini-svg-map">
+      <svg viewBox="0 0 320 36" xmlns="http://www.w3.org/2000/svg">
+        <line x1="25" y1="18" x2="295" y2="18" stroke="var(--border)" stroke-width="2"/>
+        <circle cx="25" cy="18" r="4" fill="#0284c7"/><text x="25" y="32" font-size="8" fill="currentColor" text-anchor="middle">机场取车</text>
+        <circle cx="115" cy="18" r="4" fill="#f59e0b"/><text x="115" y="32" font-size="8" fill="currentColor" text-anchor="middle">PAK'nSAVE大采购</text>
+        <circle cx="215" cy="18" r="4" fill="#10b981"/><text x="215" y="32" font-size="8" fill="currentColor" text-anchor="middle">湖景民宿Check-in</text>
+        <circle cx="295" cy="18" r="4" fill="#0284c7"/><text x="295" y="32" font-size="8" fill="currentColor" text-anchor="middle">大汉堡晚餐</text>
+      </svg>
     </div>
     <div class="timeline-row">
       <div class="time-col">16:50</div>
-      <div class="content-col">航班落地 <a class="loc-link" href="https://www.google.com/maps/search/?api=1&query=Queenstown+Airport">皇后镇机场</a>，柜台取车及验车。</div>
+      <div class="content-col">捷星 JQ293 抵达 <a class="loc-link" href="https://www.google.com/maps/search/?api=1&query=Queenstown+Airport">皇后镇机场</a>，航站楼内 National 柜台办理取车。</div>
     </div>
-    <div class="drive-connector"><div class="drive-badge">🚗 驾车 15 分钟 (7.5 km)</div></div>
+    <div class="drive-connector"><div class="drive-badge">🚗 驾车 3 分钟 (1.2 km)</div></div>
     <div class="timeline-row">
       <div class="time-col">18:00</div>
-      <div class="content-col">入住 <a class="loc-link" href="https://www.google.com/maps/search/?api=1&query=34+Lake+Esplanade+Queenstown">34 Lake Esplanade</a> 湖景民宿，安置行李。</div>
+      <div class="content-col">前往 <a class="loc-link" href="https://www.google.com/maps/search/?api=1&query=PAK'nSAVE+Queenstown+302+Hawthorne+Drive+Frankton">PAK'nSAVE Queenstown</a> 采购接下来数天的桶装水、早餐面包、防晒霜与零食。</div>
+    </div>
+    <div class="drive-connector"><div class="drive-badge">🚗 驾车 12 分钟 (8.2 km)</div></div>
+    <div class="timeline-row">
+      <div class="time-col">19:15</div>
+      <div class="content-col">入住 <a class="loc-link" href="https://www.google.com/maps/search/?api=1&query=34+Lake+Esplanade+Queenstown">34 Lake Esplanade</a> 湖景民宿，安置物资。</div>
     </div>
     <div class="drive-connector"><div class="drive-badge">🚶 步行 8 分钟 (650 m)</div></div>
     <div class="timeline-row">
-      <div class="time-col">19:00</div>
+      <div class="time-col">20:00</div>
       <div class="content-col">漫步至镇中心品尝 <a class="loc-link" href="https://www.google.com/maps/search/?api=1&query=42+Shotover+Street+Queenstown">Fergburger</a> 汉堡并在湖畔赏暮色。</div>
     </div>
   </div>
@@ -326,7 +359,17 @@
   <div class="card day-card">
     <div class="day-header">
       <div class="day-title">09.25 周五｜极限跳伞与格林诺奇</div>
-      <a class="day-nav-link" target="_blank" href="https://www.google.com/maps/dir/34+Lake+Esplanade,+Queenstown/35+Shotover+Street,+Queenstown/Bennett's+Bluff+Lookout/Glenorchy+Wharf/34+Lake+Esplanade,+Queenstown">🗺️ 当日全途经点导航 (全天往返约95km)</a>
+      <a class="day-nav-link" target="_blank" href="https://www.google.com/maps/dir/34+Lake+Esplanade,+Queenstown/35+Shotover+Street,+Queenstown/Bennett's+Bluff+Lookout/Glenorchy+Wharf/34+Lake+Esplanade,+Queenstown">🗺️ 当日全途经点导航</a>
+    </div>
+    <!-- Day 2 拓扑 -->
+    <div class="mini-svg-map">
+      <svg viewBox="0 0 320 36" xmlns="http://www.w3.org/2000/svg">
+        <line x1="25" y1="18" x2="295" y2="18" stroke="var(--border)" stroke-width="2"/>
+        <circle cx="25" cy="18" r="4" fill="#ef4444"/><text x="25" y="32" font-size="8" fill="currentColor" text-anchor="middle">07:00 跳伞</text>
+        <circle cx="115" cy="18" r="4" fill="#0284c7"/><text x="115" y="32" font-size="8" fill="currentColor" text-anchor="middle">湖畔公路</text>
+        <circle cx="205" cy="18" r="4" fill="#f59e0b"/><text x="205" y="32" font-size="8" fill="currentColor" text-anchor="middle">Bennett's Bluff</text>
+        <circle cx="295" cy="18" r="4" fill="#10b981"/><text x="295" y="32" font-size="8" fill="currentColor" text-anchor="middle">格林诺奇红房子</text>
+      </svg>
     </div>
     <div class="timeline-row">
       <div class="time-col">07:00</div>
@@ -334,12 +377,12 @@
     </div>
     <div class="timeline-row">
       <div class="time-col">11:30</div>
-      <div class="content-col">跳伞结束回民宿休整取车，开启最美湖岸自驾公路之旅。</div>
+      <div class="content-col">跳伞结束回民宿休整取车，开启最美湖岸公路自驾。</div>
     </div>
     <div class="drive-connector"><div class="drive-badge">🚗 驾车 25 分钟 (25 km 沿湖弯道)</div></div>
     <div class="timeline-row">
       <div class="time-col">12:30</div>
-      <div class="content-col">中途打卡 <a class="loc-link" href="https://www.google.com/maps/search/?api=1&query=Bennett's+Bluff+Lookout">Bennett's Bluff 观景台</a> 俯瞰 S 形湖湾。</div>
+      <div class="content-col">打卡 <a class="loc-link" href="https://www.google.com/maps/search/?api=1&query=Bennett's+Bluff+Lookout">Bennett's Bluff 观景台</a> 俯瞰 S 形瓦卡蒂普湖。</div>
     </div>
     <div class="drive-connector"><div class="drive-badge">🚗 驾车 20 分钟 (21 km)</div></div>
     <div class="timeline-row">
@@ -349,19 +392,28 @@
     <div class="drive-connector"><div class="drive-badge">🚗 返程驾车 45 分钟 (46 km)</div></div>
     <div class="timeline-row">
       <div class="time-col">16:30</div>
-      <div class="content-col">返回皇后镇民宿休息，湖边晚餐。</div>
+      <div class="content-col">返回皇后镇民宿休息，湖边餐厅晚餐。</div>
     </div>
   </div>
 
   <!-- Day 3 -->
   <div class="card day-card">
     <div class="day-header">
-      <div class="day-title">09.26 周六｜箭镇悠闲与山顶落日</div>
-      <a class="day-nav-link" target="_blank" href="https://www.google.com/maps/dir/34+Lake+Esplanade,+Queenstown/Arrowtown+Chinese+Settlement/Skyline+Queenstown">🗺️ 当日全途经点导航 (全天约45km)</a>
+      <div class="day-title">09.26 周六｜箭镇淘金与缆车滑车</div>
+      <a class="day-nav-link" target="_blank" href="https://www.google.com/maps/dir/34+Lake+Esplanade,+Queenstown/Arrowtown+Chinese+Settlement/Skyline+Queenstown">🗺️ 当日全途经点导航</a>
+    </div>
+    <!-- Day 3 拓扑 -->
+    <div class="mini-svg-map">
+      <svg viewBox="0 0 320 36" xmlns="http://www.w3.org/2000/svg">
+        <line x1="30" y1="18" x2="290" y2="18" stroke="var(--border)" stroke-width="2"/>
+        <circle cx="30" cy="18" r="4" fill="#0284c7"/><text x="30" y="32" font-size="8" fill="currentColor" text-anchor="middle">皇后镇出发</text>
+        <circle cx="160" cy="18" r="4" fill="#f59e0b"/><text x="160" y="32" font-size="8" fill="currentColor" text-anchor="middle">箭镇百年华人遗址</text>
+        <circle cx="290" cy="18" r="4" fill="#ef4444"/><text x="290" y="32" font-size="8" fill="currentColor" text-anchor="middle">Skyline 缆车+Luge</text>
+      </svg>
     </div>
     <div class="timeline-row">
       <div class="time-col">09:30</div>
-      <div class="content-col">出发前往淘金小镇。</div>
+      <div class="content-col">出发前往历史名镇。</div>
     </div>
     <div class="drive-connector"><div class="drive-badge">🚗 驾车 25 分钟 (20 km)</div></div>
     <div class="timeline-row">
@@ -371,29 +423,39 @@
     <div class="drive-connector"><div class="drive-badge">🚗 驾车 25 分钟 (20 km)</div></div>
     <div class="timeline-row">
       <div class="time-col">14:00</div>
-      <div class="content-col">返回皇后镇市区湖滨漫步，补给饮用水。</div>
+      <div class="content-col">返回皇后镇市区湖滨漫步。</div>
     </div>
     <div class="drive-connector"><div class="drive-badge">🚗 驾车 5 分钟 / 步行 12 分钟 (1.1 km)</div></div>
     <div class="timeline-row">
       <div class="time-col">16:30</div>
-      <div class="content-col">登 <a class="loc-link" href="https://www.google.com/maps/search/?api=1&query=53+Brecon+Street+Queenstown">Skyline 天际缆车</a> 玩 Luge 斜坡滑车，俯瞰皇后镇落日。<span class="tag-must-book">建议提前订票</span></div>
+      <div class="content-col">登 <a class="loc-link" href="https://www.google.com/maps/search/?api=1&query=53+Brecon+Street+Queenstown">Skyline 天际缆车</a> 连玩 3-5 次 Luge 滑车，俯瞰皇后镇亮灯。<span class="tag-must-book">建议提前订票</span></div>
     </div>
   </div>
 
   <!-- Day 4 -->
   <div class="card day-card">
     <div class="day-header">
-      <div class="day-title">09.27 周日｜飞碟射击与进驻瓦纳卡</div>
-      <a class="day-nav-link" target="_blank" href="https://www.google.com/maps/dir/34+Lake+Esplanade,+Queenstown/2696+Gibbston+Highway/That+Wanaka+Tree/2+Bellfield+Lane,+Wanaka">🗺️ 当日全途经点导航 (全天约108km)</a>
+      <div class="day-title">09.27 周日｜飞碟射击与入驻瓦纳卡</div>
+      <a class="day-nav-link" target="_blank" href="https://www.google.com/maps/dir/34+Lake+Esplanade,+Queenstown/2696+Gibbston+Highway/That+Wanaka+Tree/2+Bellfield+Lane,+Wanaka">🗺️ 当日全途经点导航</a>
+    </div>
+    <!-- Day 4 拓扑 -->
+    <div class="mini-svg-map">
+      <svg viewBox="0 0 320 36" xmlns="http://www.w3.org/2000/svg">
+        <line x1="25" y1="18" x2="295" y2="18" stroke="var(--border)" stroke-width="2"/>
+        <circle cx="25" cy="18" r="4" fill="#0284c7"/><text x="25" y="32" font-size="8" fill="currentColor" text-anchor="middle">皇后镇退房</text>
+        <circle cx="115" cy="18" r="4" fill="#ef4444"/><text x="115" y="32" font-size="8" fill="currentColor" text-anchor="middle">13:00 Oxbow 射击</text>
+        <circle cx="215" cy="18" r="4" fill="#f59e0b"/><text x="215" y="32" font-size="8" fill="currentColor" text-anchor="middle">经克伦威尔顺路</text>
+        <circle cx="295" cy="18" r="4" fill="#10b981"/><text x="295" y="32" font-size="8" fill="currentColor" text-anchor="middle">瓦纳卡孤独之树</text>
+      </svg>
     </div>
     <div class="timeline-row">
       <div class="time-col">10:00</div>
-      <div class="content-col">皇后镇退房出发（夏令时今日开启，时间已提前拨快1小时）。</div>
+      <div class="content-col">皇后镇退房出发（夏令时今日开启，时钟拨快1小时）。</div>
     </div>
     <div class="drive-connector"><div class="drive-badge">🚗 驾车 25 分钟 (26 km)</div></div>
     <div class="timeline-row">
       <div class="time-col">10:30</div>
-      <div class="content-col">参观卡瓦劳大桥商业蹦极发源地，观赏高空跳桥。</div>
+      <div class="content-col">参观卡瓦劳大桥商业蹦极发源地。</div>
     </div>
     <div class="drive-connector"><div class="drive-badge">🚗 驾车 6 分钟 (5.5 km)</div></div>
     <div class="timeline-row">
@@ -410,17 +472,28 @@
   <!-- Day 5 -->
   <div class="card day-card">
     <div class="day-header">
-      <div class="day-title">09.28 周一｜林迪斯隘口与特威泽尔</div>
-      <a class="day-nav-link" target="_blank" href="https://www.google.com/maps/dir/2+Bellfield+Lane,+Wanaka/Lindis+Pass+Lookout/High+Country+Salmon/44+Irishman+Drive,+Twizel">🗺️ 当日全途经点导航 (全天约145km)</a>
+      <div class="day-title">09.28 周一｜林迪斯隘口・三文鱼与加油</div>
+      <a class="day-nav-link" target="_blank" href="https://www.google.com/maps/dir/2+Bellfield+Lane,+Wanaka/Lindis+Pass+Lookout/High+Country+Salmon/Mobil+Twizel/44+Irishman+Drive,+Twizel">🗺️ 当日全途经点导航</a>
+    </div>
+    <!-- Day 5 拓扑 -->
+    <div class="mini-svg-map">
+      <svg viewBox="0 0 320 36" xmlns="http://www.w3.org/2000/svg">
+        <line x1="20" y1="18" x2="300" y2="18" stroke="var(--border)" stroke-width="2"/>
+        <circle cx="20" cy="18" r="4" fill="#0284c7"/><text x="20" y="32" font-size="8" fill="currentColor" text-anchor="middle">瓦纳卡出发</text>
+        <circle cx="100" cy="18" r="4" fill="#f59e0b"/><text x="100" y="32" font-size="8" fill="currentColor" text-anchor="middle">Lindis Pass</text>
+        <circle cx="180" cy="18" r="4" fill="#10b981"/><text x="180" y="32" font-size="8" fill="currentColor" text-anchor="middle">高山三文鱼</text>
+        <circle cx="250" cy="18" r="4" fill="#b45309"/><text x="250" y="32" font-size="8" fill="currentColor" text-anchor="middle">⛽特威泽尔加满</text>
+        <circle cx="300" cy="18" r="4" fill="#0284c7"/><text x="300" y="32" font-size="8" fill="currentColor" text-anchor="middle">Twizel民宿</text>
+      </svg>
     </div>
     <div class="timeline-row">
       <div class="time-col">10:00</div>
-      <div class="content-col">瓦纳卡退房出发，沿 8 号国道翻越高山草甸。</div>
+      <div class="content-col">瓦纳卡退房出发，沿 8 号国道翻越高山。</div>
     </div>
-    <div class="drive-connector"><div class="drive-badge">🚗 驾车 1 小时 05 分钟 (83 km 山路翻越)</div></div>
+    <div class="drive-connector"><div class="drive-badge">🚗 驾车 1 小时 05 分钟 (83 km 山路)</div></div>
     <div class="timeline-row">
       <div class="time-col">11:15</div>
-      <div class="content-col">停靠 <a class="loc-link" href="https://www.google.com/maps/search/?api=1&query=Lindis+Pass+Summit+Lookout">Lindis Pass 观景台</a> 拍摄金黄草甸连绵风光。</div>
+      <div class="content-col">停靠 <a class="loc-link" href="https://www.google.com/maps/search/?api=1&query=Lindis+Pass+Summit+Lookout">Lindis Pass 观景台</a> 拍摄金黄草甸风光。</div>
     </div>
     <div class="drive-connector"><div class="drive-badge">🚗 驾车 40 分钟 (52 km)</div></div>
     <div class="timeline-row">
@@ -429,20 +502,37 @@
     </div>
     <div class="drive-connector"><div class="drive-badge">🚗 驾车 8 分钟 (6.5 km)</div></div>
     <div class="timeline-row">
+      <div class="time-col">14:15</div>
+      <div class="content-col">
+        <span class="gas-badge">⛽ 关键加油点 1</span> 在 <a class="loc-link" href="https://www.google.com/maps/search/?api=1&query=Mobil+Twizel+50+Mackenzie+Drive">Mobil Twizel (50 Mackenzie Dr)</a> 将油箱加满（库克山内无油站）。
+      </div>
+    </div>
+    <div class="drive-connector"><div class="drive-badge">🚗 驾车 3 分钟 (1.5 km)</div></div>
+    <div class="timeline-row">
       <div class="time-col">15:00</div>
-      <div class="content-col">入住特威泽尔民宿 <a class="loc-link" href="https://www.google.com/maps/search/?api=1&query=44+Irishman+Drive+Twizel">44 Irishman Drive</a>，超市补给食材。</div>
+      <div class="content-col">入住特威泽尔民宿 <a class="loc-link" href="https://www.google.com/maps/search/?api=1&query=44+Irishman+Drive+Twizel">44 Irishman Drive</a>。</div>
     </div>
   </div>
 
   <!-- Day 6 -->
   <div class="card day-card">
     <div class="day-header">
-      <div class="day-title">09.29 周二｜库克山国家公园深度徒步</div>
-      <a class="day-nav-link" target="_blank" href="https://www.google.com/maps/dir/44+Irishman+Drive,+Twizel/Peter's+Lookout/Hooker+Valley+track/Tasman+Glacier+View+carpark/44+Irishman+Drive,+Twizel">🗺️ 当日全途经点导航 (全天往返约140km)</a>
+      <div class="day-title">09.29 周二｜库克山冰川徒步</div>
+      <a class="day-nav-link" target="_blank" href="https://www.google.com/maps/dir/44+Irishman+Drive,+Twizel/Peter's+Lookout/Hooker+Valley+track/Tasman+Glacier+View+carpark/44+Irishman+Drive,+Twizel">🗺️ 当日全途经点导航</a>
+    </div>
+    <!-- Day 6 拓扑 -->
+    <div class="mini-svg-map">
+      <svg viewBox="0 0 320 36" xmlns="http://www.w3.org/2000/svg">
+        <line x1="25" y1="18" x2="295" y2="18" stroke="var(--border)" stroke-width="2"/>
+        <circle cx="25" cy="18" r="4" fill="#0284c7"/><text x="25" y="32" font-size="8" fill="currentColor" text-anchor="middle">满油出发</text>
+        <circle cx="105" cy="18" r="4" fill="#f59e0b"/><text x="105" y="32" font-size="8" fill="currentColor" text-anchor="middle">Peter's Lookout</text>
+        <circle cx="200" cy="18" r="4" fill="#10b981"/><text x="200" y="32" font-size="8" fill="currentColor" text-anchor="middle">胡克谷步道</text>
+        <circle cx="295" cy="18" r="4" fill="#0284c7"/><text x="295" y="32" font-size="8" fill="currentColor" text-anchor="middle">塔斯曼冰川</text>
+      </svg>
     </div>
     <div class="timeline-row">
       <div class="time-col">08:30</div>
-      <div class="content-col">从特威泽尔出发，沿 80 号最美雪山公路行进。</div>
+      <div class="content-col">特威泽尔出发，沿 80 号最美雪山公路行进。</div>
     </div>
     <div class="drive-connector"><div class="drive-badge">🚗 驾车 18 分钟 (20 km)</div></div>
     <div class="timeline-row">
@@ -462,7 +552,7 @@
     <div class="drive-connector"><div class="drive-badge">🚗 返程驾车 50 分钟 (68 km)</div></div>
     <div class="timeline-row">
       <div class="time-col">16:30</div>
-      <div class="content-col">返回特威泽尔民宿休息烹饪。</div>
+      <div class="content-col">返回特威泽尔民宿休息。</div>
     </div>
   </div>
 
@@ -470,7 +560,17 @@
   <div class="card day-card">
     <div class="day-header">
       <div class="day-title">09.30 周三｜特卡波湖与星空之乡</div>
-      <a class="day-nav-link" target="_blank" href="https://www.google.com/maps/dir/44+Irishman+Drive,+Twizel/Church+of+the+Good+Shepherd/Astro+Cafe/18+Edwards+Lane,+Lake+Tekapo">🗺️ 当日全途经点导航 (全天约70km)</a>
+      <a class="day-nav-link" target="_blank" href="https://www.google.com/maps/dir/44+Irishman+Drive,+Twizel/Church+of+the+Good+Shepherd/Astro+Cafe/18+Edwards+Lane,+Lake+Tekapo">🗺️ 当日全途经点导航</a>
+    </div>
+    <!-- Day 7 拓扑 -->
+    <div class="mini-svg-map">
+      <svg viewBox="0 0 320 36" xmlns="http://www.w3.org/2000/svg">
+        <line x1="30" y1="18" x2="290" y2="18" stroke="var(--border)" stroke-width="2"/>
+        <circle cx="30" cy="18" r="4" fill="#0284c7"/><text x="30" y="32" font-size="8" fill="currentColor" text-anchor="middle">Twizel退房</text>
+        <circle cx="120" cy="18" r="4" fill="#f59e0b"/><text x="120" y="32" font-size="8" fill="currentColor" text-anchor="middle">好牧羊人教堂</text>
+        <circle cx="210" cy="18" r="4" fill="#10b981"/><text x="210" y="32" font-size="8" fill="currentColor" text-anchor="middle">约翰山Astro Cafe</text>
+        <circle cx="290" cy="18" r="4" fill="#8b5cf6"/><text x="290" y="32" font-size="8" fill="currentColor" text-anchor="middle">暗夜保护区观星</text>
+      </svg>
     </div>
     <div class="timeline-row">
       <div class="time-col">10:00</div>
@@ -479,12 +579,12 @@
     <div class="drive-connector"><div class="drive-badge">🚗 驾车 45 分钟 (58 km)</div></div>
     <div class="timeline-row">
       <div class="time-col">10:45</div>
-      <div class="content-col">抵达并打卡历史石构建筑 <a class="loc-link" href="https://www.google.com/maps/search/?api=1&query=Church+of+the+Good+Shepherd+Lake+Tekapo">好牧羊人教堂</a>。</div>
+      <div class="content-col">拜访石构建筑 <a class="loc-link" href="https://www.google.com/maps/search/?api=1&query=Church+of+the+Good+Shepherd+Lake+Tekapo">好牧羊人教堂</a>。</div>
     </div>
     <div class="drive-connector"><div class="drive-badge">🚗 驾车 12 分钟 (7.5 km 盘山收费路)</div></div>
     <div class="timeline-row">
       <div class="time-col">13:30</div>
-      <div class="content-col">登上约翰山顶 <a class="loc-link" href="https://www.google.com/maps/search/?api=1&query=Astro+Cafe+Lake+Tekapo">Astro Café</a> 喝咖啡360度俯瞰特卡波湖。</div>
+      <div class="content-col">登约翰山顶 <a class="loc-link" href="https://www.google.com/maps/search/?api=1&query=Astro+Cafe+Lake+Tekapo">Astro Café</a> 喝咖啡360度俯瞰特卡波湖。</div>
     </div>
     <div class="drive-connector"><div class="drive-badge">🚗 驾车 12 分钟 (7.5 km)</div></div>
     <div class="timeline-row">
@@ -497,7 +597,17 @@
   <div class="card day-card">
     <div class="day-header">
       <div class="day-title">10.01 周四｜穿越平原进驻基督城</div>
-      <a class="day-nav-link" target="_blank" href="https://www.google.com/maps/dir/18+Edwards+Lane,+Lake+Tekapo/Fairlie+Bakehouse/Riverside+Market/150+Manchester+Street,+Christchurch">🗺️ 当日全途经点导航 (全天约235km)</a>
+      <a class="day-nav-link" target="_blank" href="https://www.google.com/maps/dir/18+Edwards+Lane,+Lake+Tekapo/Fairlie+Bakehouse/Riverside+Market/150+Manchester+Street,+Christchurch">🗺️ 当日全途经点导航</a>
+    </div>
+    <!-- Day 8 拓扑 -->
+    <div class="mini-svg-map">
+      <svg viewBox="0 0 320 36" xmlns="http://www.w3.org/2000/svg">
+        <line x1="25" y1="18" x2="295" y2="18" stroke="var(--border)" stroke-width="2"/>
+        <circle cx="25" cy="18" r="4" fill="#0284c7"/><text x="25" y="32" font-size="8" fill="currentColor" text-anchor="middle">特卡波出发</text>
+        <circle cx="110" cy="18" r="4" fill="#f59e0b"/><text x="110" y="32" font-size="8" fill="currentColor" text-anchor="middle">Fairlie肉派</text>
+        <circle cx="210" cy="18" r="4" fill="#10b981"/><text x="210" y="32" font-size="8" fill="currentColor" text-anchor="middle">穿越大平原</text>
+        <circle cx="295" cy="18" r="4" fill="#ef4444"/><text x="295" y="32" font-size="8" fill="currentColor" text-anchor="middle">基督城Riverside</text>
+      </svg>
     </div>
     <div class="timeline-row">
       <div class="time-col">10:00</div>
@@ -516,7 +626,7 @@
     <div class="drive-connector"><div class="drive-badge">🚶 步行 10 分钟 (800 m)</div></div>
     <div class="timeline-row">
       <div class="time-col">16:30</div>
-      <div class="content-col">漫步 <a class="loc-link" href="https://www.google.com/maps/search/?api=1&query=Riverside+Market+Christchurch">Riverside Market 滨河室内集市</a> 探索美食。</div>
+      <div class="content-col">漫步 <a class="loc-link" href="https://www.google.com/maps/search/?api=1&query=Riverside+Market+Christchurch">Riverside Market 滨河集市</a> 探索美食。</div>
     </div>
   </div>
 
@@ -524,7 +634,16 @@
   <div class="card day-card">
     <div class="day-header">
       <div class="day-title">10.02 周五｜花园之城古典人文漫游</div>
-      <a class="day-nav-link" target="_blank" href="https://www.google.com/maps/dir/150+Manchester+Street/Christchurch+Botanic+Gardens/The+Arts+Centre/Cardboard+Cathedral/New+Regent+Street">🗺️ 当日全途经点导航 (市区步行/车程约6km)</a>
+      <a class="day-nav-link" target="_blank" href="https://www.google.com/maps/dir/150+Manchester+Street/Christchurch+Botanic+Gardens/The+Arts+Centre/Cardboard+Cathedral/New+Regent+Street">🗺️ 当日全途经点导航</a>
+    </div>
+    <!-- Day 9 拓扑 -->
+    <div class="mini-svg-map">
+      <svg viewBox="0 0 320 36" xmlns="http://www.w3.org/2000/svg">
+        <line x1="30" y1="18" x2="290" y2="18" stroke="var(--border)" stroke-width="2"/>
+        <circle cx="30" cy="18" r="4" fill="#0284c7"/><text x="30" y="32" font-size="8" fill="currentColor" text-anchor="middle">植物园春花</text>
+        <circle cx="160" cy="18" r="4" fill="#10b981"/><text x="160" y="32" font-size="8" fill="currentColor" text-anchor="middle">纸板大教堂</text>
+        <circle cx="290" cy="18" r="4" fill="#f59e0b"/><text x="290" y="32" font-size="8" fill="currentColor" text-anchor="middle">新摄政街雪糕</text>
+      </svg>
     </div>
     <div class="timeline-row">
       <div class="time-col">10:00</div>
@@ -540,17 +659,33 @@
   <!-- Day 10 -->
   <div class="card day-card">
     <div class="day-header">
-      <div class="day-title">10.03 周六｜机场还车・跨塔斯曼海峡</div>
-      <a class="day-nav-link" target="_blank" href="https://www.google.com/maps/dir/150+Manchester+Street/Christchurch+Airport">🗺️ 当日导航 (车程约11km)</a>
+      <div class="day-title">10.03 周六｜满油还车・跨海飞悉尼</div>
+      <a class="day-nav-link" target="_blank" href="https://www.google.com/maps/dir/150+Manchester+Street/Mobil+Christchurch+Airport/Christchurch+Airport">🗺️ 当日导航 (含还车前加油)</a>
+    </div>
+    <!-- Day 10 拓扑 -->
+    <div class="mini-svg-map">
+      <svg viewBox="0 0 320 36" xmlns="http://www.w3.org/2000/svg">
+        <line x1="30" y1="18" x2="290" y2="18" stroke="var(--border)" stroke-width="2"/>
+        <circle cx="30" cy="18" r="4" fill="#0284c7"/><text x="30" y="32" font-size="8" fill="currentColor" text-anchor="middle">民宿退房</text>
+        <circle cx="160" cy="18" r="4" fill="#b45309"/><text x="160" y="32" font-size="8" fill="currentColor" text-anchor="middle">⛽机场外加满</text>
+        <circle cx="290" cy="18" r="4" fill="#ef4444"/><text x="290" y="32" font-size="8" fill="currentColor" text-anchor="middle">机场还车离境</text>
+      </svg>
     </div>
     <div class="timeline-row">
       <div class="time-col">10:00</div>
       <div class="content-col">基督城民宿退房，市区最后采购伴手礼。</div>
     </div>
-    <div class="drive-connector"><div class="drive-badge">🚗 驾车 20 分钟 (11 km)</div></div>
+    <div class="drive-connector"><div class="drive-badge">🚗 驾车 18 分钟 (10 km)</div></div>
     <div class="timeline-row">
       <div class="time-col">15:00</div>
-      <div class="content-col">抵达 <a class="loc-link" href="https://www.google.com/maps/search/?api=1&query=Christchurch+Airport">基督城国际机场</a> 办理还车，国际出发值机与安检。<span class="tag-booked">提前3小时</span></div>
+      <div class="content-col">
+        <span class="gas-badge">⛽ 关键加油点 2</span> 在机场外 <a class="loc-link" href="https://www.google.com/maps/search/?api=1&query=Mobil+Christchurch+Airport+75+Orchard+Road">Mobil Christchurch Airport (75 Orchard Rd)</a> 加满油（Full to Full 避免罚款）。
+      </div>
+    </div>
+    <div class="drive-connector"><div class="drive-badge">🚗 驾车 3 分钟 (1.2 km)</div></div>
+    <div class="timeline-row">
+      <div class="time-col">15:30</div>
+      <div class="content-col">抵达 <a class="loc-link" href="https://www.google.com/maps/search/?api=1&query=Christchurch+Airport">基督城国际机场</a> 航站楼还车区验车还车，办理阿联酋航空国际出发值机与安检。<span class="tag-booked">提前3小时</span></div>
     </div>
     <div class="timeline-row">
       <div class="time-col">18:20</div>
