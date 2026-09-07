@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>新西兰南岛自驾指南 (NZ Road Trip 2026)</title>
+  <style>
+    :root {
+      --bg: #f8fafc;
+      --card-bg: #ffffff;
+      --text: #1e293b;
+      --text-sub: #64748b;
+      --primary: #0284c7;
+      --accent: #f59e0b;
+      --danger: #ef4444;
+      --border: #e2e8f0;
+      --tag-bg: #f1f5f9;
+      --shadow: 0 4px 12px rgba(0,0,0,0.06);
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #0f172a;
+        --card-bg: #1e293b;
+        --text: #f8fafc;
+        --text-sub: #94a3b8;
+        --primary: #38bdf8;
+        --accent: #fbbf24;
+        --danger: #f87171;
+        --border: #334155;
+        --tag-bg: #334155;
+        --shadow: 0 4px 12px rgba(0,0,0,0.3);
+      }
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+      padding-bottom: 50px;
+    }
+    .container { max-width: 680px; margin: 0 auto; padding: 16px; }
+    header { text-align: center; margin-bottom: 20px; }
+    header h1 { font-size: 1.5rem; font-weight: 800; }
+    header p { font-size: 0.85rem; color: var(--text-sub); margin-top: 4px; }
+    
+    .card {
+      background: var(--card-bg);
+      border-radius: 16px;
+      padding: 16px;
+      margin-bottom: 18px;
+      box-shadow: var(--shadow);
+      border: 1px solid var(--border);
+    }
+    
+    /* 顶部关注卡片 */
+    .focus-card {
+      background: linear-gradient(135deg, #0284c7, #0369a1);
+      color: #ffffff;
+      border: none;
+    }
+    @media (prefers-color-scheme: dark) {
+      .focus-card { background: linear-gradient(135deg, #0369a1, #0f172a); border: 1px solid var(--border); }
+    }
+    .focus-badge {
+      display: inline-block;
+      font-size: 0.72rem;
+      background: rgba(255,255,255,0.2);
+      padding: 3px 8px;
+      border-radius: 20px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+    }
+    .focus-title { font-size: 1.15rem; font-weight: 700; margin: 8px 0 4px; }
+    .focus-desc { font-size: 0.85rem; opacity: 0.9; }
+    .countdown-timer {
+      display: flex;
+      gap: 8px;
+      margin-top: 14px;
+      justify-content: space-between;
+    }
+    .countdown-unit {
+      flex: 1;
+      background: rgba(0,0,0,0.18);
+      padding: 8px 4px;
+      border-radius: 10px;
+      text-align: center;
+    }
+    .countdown-num { font-size: 1.4rem; font-weight: 800; font-variant-numeric: tabular-nums; }
+    .countdown-label { font-size: 0.65rem; text-transform: uppercase; opacity: 0.8; }
+    
+    /* 模块标题 */
+    .sec-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin: 24px 0 12px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    
+    /* 地图总览 */
+    .map-box { text-align: center; overflow: hidden; }
+    svg { width: 100%; height: auto; display: block; }
+    
+    /* 订票确认单 */
+    .booking-grid { display: flex; flex-direction: column; gap: 10px; }
+    .booking-item {
+      padding: 12px;
+      background: var(--tag-bg);
+      border-radius: 10px;
+      font-size: 0.85rem;
+    }
+    .booking-head { font-weight: 700; display: flex; justify-content: space-between; margin-bottom: 4px; }
+    .booking-detail { color: var(--text-sub); line-height: 1.4; }
+    
+    /* 逐日日程 */
+    .day-card { margin-bottom: 16px; }
+    .day-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 8px;
+      margin-bottom: 10px;
+    }
+    .day-title { font-size: 1.05rem; font-weight: 800; }
+    .day-nav-link {
+      font-size: 0.75rem;
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 600;
+    }
+    .timeline-row {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 12px;
+      font-size: 0.85rem;
+    }
+    .time-col {
+      min-width: 50px;
+      font-weight: 700;
+      color: var(--primary);
+      text-align: right;
+      font-variant-numeric: tabular-nums;
+    }
+    .content-col { flex: 1; }
+    .loc-link {
+      color: var(--text);
+      font-weight: 600;
+      text-decoration: underline;
+      text-decoration-color: var(--border);
+      text-underline-offset: 3px;
+    }
+    .tag-must-book {
+      display: inline-block;
+      font-size: 0.65rem;
+      color: #fff;
+      background: var(--danger);
+      padding: 1px 6px;
+      border-radius: 4px;
+      font-weight: 600;
+      margin-left: 4px;
+    }
+    .tag-booked {
+      display: inline-block;
+      font-size: 0.65rem;
+      color: #fff;
+      background: #10b981;
+      padding: 1px 6px;
+      border-radius: 4px;
+      font-weight: 600;
+      margin-left: 4px;
+    }
+    
+    /* 待办与贴士 */
+    ul.checklist { list-style: none; }
+    ul.checklist li {
+      padding: 8px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.85rem;
+      display: flex;
+      gap: 8px;
+    }
+    ul.checklist li:last-child { border-bottom: none; }
+    .badge-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); margin-top: 7px; flex-shrink: 0; }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <header>
+    <h1>🇳🇿 新西兰南岛自驾手册</h1>
+    <p>2026.09.24 – 2026.10.03｜离线可用・纯净单页</p>
+  </header>
+
+  <!-- 1. 顶部此刻关注与大倒计时 -->
+  <div class="card focus-card">
+    <span class="focus-badge">NEXT MILESTONE</span>
+    <div class="focus-title" id="next-title">计算行程航向中...</div>
+    <div class="focus-desc" id="next-desc">--:--</div>
+    <div class="countdown-timer">
+      <div class="countdown-unit"><div class="countdown-num" id="cd-days">00</div><div class="countdown-label">Days</div></div>
+      <div class="countdown-unit"><div class="countdown-num" id="cd-hours">00</div><div class="countdown-label">Hours</div></div>
+      <div class="countdown-unit"><div class="countdown-num" id="cd-mins">00</div><div class="countdown-label">Mins</div></div>
+      <div class="countdown-unit"><div class="countdown-num" id="cd-secs">00</div><div class="countdown-label">Secs</div></div>
+    </div>
+  </div>
+
+  <!-- 2. 行程手绘总览图 (SVG) -->
+  <div class="sec-title">🗺️ 自驾环线拓扑图</div>
+  <div class="card map-box">
+    <svg viewBox="0 0 360 210" xmlns="http://www.w3.org/2000/svg">
+      <!-- 轮廓参考线 -->
+      <path d="M 40 160 Q 80 140 100 130 T 160 100 T 220 70 T 310 50" fill="none" stroke="var(--border)" stroke-width="6" stroke-linecap="round"/>
+      
+      <!-- 航段色彩与节点 -->
+      <!-- Day 1-3 Queenstown -->
+      <circle cx="45" cy="160" r="7" fill="#0284c7" />
+      <text x="45" y="180" font-size="10" fill="currentColor" text-anchor="middle" font-weight="bold">Queenstown(3N)</text>
+      
+      <!-- Day 4 Wanaka -->
+      <path d="M 45 160 L 95 130" stroke="#f59e0b" stroke-width="3" stroke-dasharray="3 3"/>
+      <circle cx="95" cy="130" r="6" fill="#f59e0b" />
+      <text x="95" y="120" font-size="10" fill="currentColor" text-anchor="middle" font-weight="bold">Wānaka(1N)</text>
+      
+      <!-- Day 5-6 Twizel / Mt Cook -->
+      <path d="M 95 130 L 165 95" stroke="#10b981" stroke-width="3"/>
+      <circle cx="165" cy="95" r="6" fill="#10b981" />
+      <text x="165" y="85" font-size="10" fill="currentColor" text-anchor="middle" font-weight="bold">Twizel(2N)</text>
+      
+      <!-- Day 7 Tekapo -->
+      <path d="M 165 95 L 215 75" stroke="#8b5cf6" stroke-width="3"/>
+      <circle cx="215" cy="75" r="6" fill="#8b5cf6" />
+      <text x="215" y="65" font-size="10" fill="currentColor" text-anchor="middle" font-weight="bold">Tekapo(1N)</text>
+      
+      <!-- Day 8-10 Christchurch -->
+      <path d="M 215 75 L 305 45" stroke="#ef4444" stroke-width="3"/>
+      <circle cx="305" cy="45" r="7" fill="#ef4444" />
+      <text x="305" y="35" font-size="10" fill="currentColor" text-anchor="middle" font-weight="bold">Christchurch(2N)</text>
+      
+      <text x="180" y="195" font-size="9" fill="var(--text-sub)" text-anchor="middle">全线约 800+ km｜经典由南向北穿越</text>
+    </svg>
+  </div>
+
+  <!-- 3. 已确认大件凭证总览 (脱敏) -->
+  <div class="sec-title">📑 机票・酒店・已定项目</div>
+  <div class="card booking-grid">
+    <div class="booking-item">
+      <div class="booking-head"><span>✈️ 国际段航班 (国泰/阿联酋)</span><span class="tag-booked">已出票</span></div>
+      <div class="booking-detail">
+        • 09.20 21:10 香港 HKG ➔ 09.21 11:50(+1) 奥克兰 AKL (CX113)<br>
+        • 10.03 18:20 基督城 CHC ➔ 18:40 悉尼 SYD (EK413)<br>
+        • 10.04 22:20 悉尼 SYD ➔ 10.05 04:40(+1) 香港 HKG (CX138)
+      </div>
+    </div>
+    <div class="booking-item">
+      <div class="booking-head"><span>✈️ 新西兰境内段 (捷星)</span><span class="tag-booked">已出票</span></div>
+      <div class="booking-detail">
+        • 09.24 15:00 奥克兰 AKL(D) ➔ 16:50 皇后镇 ZQN (JQ293)
+      </div>
+    </div>
+    <div class="booking-item">
+      <div class="booking-head"><span>🚗 南岛机场租车自驾</span><span class="tag-booked">已预订</span></div>
+      <div class="booking-detail">
+        • 09.24 皇后镇机场取车 ➔ 10.03 基督城机场还车（15:30前还车）
+      </div>
+    </div>
+    <div class="booking-item">
+      <div class="booking-head"><span>🏡 全程自驾住宿清单</span><span class="tag-booked">已确认</span></div>
+      <div class="booking-detail">
+        • 09.24-09.27 皇后镇：<a class="loc-link" href="https://www.google.com/maps/search/?api=1&query=34+Lake+Esplanade+Queenstown">34 Lake Esplanade, Queenstown</a> (3晚)<br>
+        • 09.27-09.28 瓦纳卡：<a class="loc-link" href="https://www.google.com/maps/search/?api=1&query=2+Bellfield+Lane+Wānaka">2 Bellfield Lane, Wānaka</a> (1晚)<br>
+        • 09.28-09.30 特威泽尔：<a class="loc-link" href="https://www.google.com/maps/search/?api=1&query=44+Irishman+Drive+Twizel">44 Irishman Drive, Twizel</a> (2晚)<br>
+        • 09.30-10.01 特卡波：<a class="loc-link" href="https://www.google.com/maps/search/?api=1&query=18+Edwards+Lane+Lake+Tekapo">18 Edwards Lane, Lake Tekapo</a> (1晚)<br>
+        • 10.01-10.03 基督城：<a class="loc-link" href="https://www.google.com/maps/search/?api=1&query=150+Manchester+Street+Christchurch">150 Manchester Street, Christchurch</a> (2晚)
+      </div>
+    </div>
+    <div class="booking-item">
+      <div class="booking-head"><span>🎯 硬性体验项目</span><span class="tag-booked">已确认</span></div>
+      <div class="booking-detail">
+        • 09.25 07:00 NZONE 15,000英尺跳伞 (<a class="loc-link" href="https://www.google.com/maps/search/?api=1&query=35+Shotover+Street+Queenstown">35 Shotover St</a>)<br>
+        • 09.27 13:00 Oxbow 飞碟射击 (<a class="loc-link" href="https://www.google.com/maps/search/?api=1&query=2696+Gibbston+Highway+Queenstown">2696 Gibbston Hwy</a>)
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. 逐日详细行程 -->
+  <div class="sec-title">📅 逐日行程与路线导航</div>
+
+  <!-- Day 1 -->
+  <div class="card day-card">
+    <div class="day-header">
+      <div class="day-title">09.24 周四｜抵达皇后镇</div>
+      <a class="day-nav-link" target="_blank" href="https://www.google.com/maps/dir/Queenstown+Airport/34+Lake+Esplanade,+Queenstown/Fergburger/Queenstown+Gardens">🗺️ 当日全途经点导航</a>
+    </div>
+    <div class="timeline-row">
+      <div class="time-col">16:50</div>
+      <div class="content-col">航班落地 <a class="loc-link" href="https://www.google.com/maps/search/?api=1&query=Queenstown+Airport">皇后镇机场</a>，柜台取车及检查验车。</div>
+    </div>
+    <div class="timeline-row">
+      <div class="time-col">18:00</div>
+      <div class="content-col">入住 <a class="loc-link" href="https://www.google.com/maps/search/?api=1&query=34+Lake+Esplanade+Queenstown">34 Lake Esplanade</a> 湖景民宿，安置行李。</div>
+    </div>
+    <div class="timeline-row">
+      <div class="time-col">19:00</div>
+      <div class="content-col">漫步至市区打卡 <a class="loc-link" href="https://www.google.com/maps/search/?api=1&query=42+Shotover+Street+Queenstown">Fergburger</a> 大汉堡并在湖畔长椅赏落日。</div>
+    </div>
+  </div>
+
+  <!-- Day 2 -->
+  <div class="card day-card">
+    <div class="day-header">
+      <div class="day-title">09.25 周五｜极限跳伞与格林诺奇</div>
+      <a class="day-nav-link" target="_blank" href="https://www.google.com/maps/dir/35+Shotover+Street,+Queenstown/Bennett's+Bluff+Lookout/Glenorchy+Wharf/34+Lake+Esplanade,+Queenstown">🗺️ 当日全途经点导航</a>
+    </div>
+    <div class="timeline-row">
+      <div class="time-col">07:00</div>
+      <div class="content-col"><b>NZONE 高空跳伞</b> 集合报到 (<a class="loc-link" href="https://www.google.com/maps/search/?api=1&query=35+Shotover+Street+Queenstown">35 Shotover St</a>)，高空俯瞰卓越山脉。<span class="tag-booked">已锁定</span></div>
+    </div>
+    <div class="timeline-row">
+      <div class="time-col">11:30</div>
+      <div class="content-col">跳伞结束回民宿稍作休整取车，沿最美湖畔公路出发前往魔戒小镇。</div>
+    </div>
+    <div class="timeline-row">
+      <div class="time-col">12:30</div>
+      <div class="content-col">停靠 <a class="loc-link" href="https://www.google.com/maps/search/?api=1&query=Bennett's+Bluff+Lookout">Bennett's Bluff 观景台</a> 俯瞰 S 形湖湾；随后抵达 <a class="loc-link" href="https://www.google.com/maps/search/?api=1&query=4+Islay+Street+Glenorchy">格林诺奇红房子码头</a>。</div>
+    </div>
+    <div class="timeline-row">
+      <div class="time-col">14:00</div>
+      <div class="content-col"><a class="loc-link" href="https://www.google.com/maps/search/?api=1&query=Glenorchy+Lagoon+Walkway">Glenorchy Lagoon 湿地步道</a> 平缓轻徒步（约1小时），午后返回皇后镇。</div>
+    </div>
+  </div>
+
+  <!-- Day 3 -->
+  <div class="card day-card">
+    <div class="day-header">
+      <div class="day-title">09.26 周六｜箭镇悠闲与山顶落日</div>
+      <a class="day-nav-link" target="_blank" href="https://www.google.com/maps/dir/34+Lake+Esplanade,+Queenstown/Arrowtown+Chinese+Settlement/Skyline+Queenstown">🗺️ 当日全途经点导航</a>
+    </div>
+    <div class="timeline-row">
+      <div class="time-col">09:30</div>
+      <div class="content-col">驱车前往历史名镇，漫步 <a class="loc-link" href="https://www.google.com/maps/search/?api=1&query=Arrowtown+Chinese+Settlement">箭镇华人淘金遗址</a>，白金汉街喝咖啡。</div>
+    </div>
+    <div class="timeline-row">
+      <div class="time-col">14:00</div>
+      <div class="content-col">返回皇后镇市区湖滨漫步，逛街买补给。</div>
+    </div>
+    <div class="timeline-row">
+      <div class="time-col">16:30</div>
+      <div class="content-col">前往 <a class="loc-link" href="https://www.google.com/maps/search/?api=1&query=53+Brecon+Street+Queenstown">Skyline 天际缆车</a> 登鲍勃峰，连玩 3-5 次 Luge 斜坡滑板车，俯瞰黄昏亮灯。<span class="tag-must-book">建议提前订票</span></div>
+    </div>
+  </div>
+
+  <!-- Day 4 -->
+  <div class="card day-card">
+    <div class="day-header">
+      <div class="day-title">09.27 周日｜飞碟射击与进驻瓦纳卡</div>
+      <a class="day-nav-link" target="_blank" href="https://www.google.com/maps/dir/34+Lake+Esplanade,+Queenstown/2696+Gibbston+Highway/That+Wanaka+Tree/2+Bellfield+Lane,+Wanaka">🗺️ 当日全途经点导航</a>
+    </div>
+    <div class="timeline-row">
+      <div class="time-col">10:00</div>
+      <div class="content-col">皇后镇退房（夏令时今日开启，时间已提前拨快1小时）。</div>
+    </div>
+    <div class="timeline-row">
+      <div class="time-col">11:30</div>
+      <div class="content-col">前往卡瓦劳大桥观赏商业蹦极发源地。</div>
+    </div>
+    <div class="timeline-row">
+      <div class="time-col">13:00</div>
+      <div class="content-col"><b>Oxbow Adventure 飞碟射击</b> (<a class="loc-link" href="https://www.google.com/maps/search/?api=1&query=2696+Gibbston+Highway+Queenstown">2696 Gibbston Hwy</a>)。<span class="tag-booked">已锁定</span></div>
+    </div>
+    <div class="timeline-row">
+      <div class="time-col">14:45</div>
+      <div class="content-col">直接沿 6 号国道顺路经克伦威尔（Cromwell 水果镇）开往瓦纳卡（顺路不折返）。</div>
+    </div>
+    <div class="timeline-row">
+      <div class="time-col">16:00</div>
+      <div class="content-col">入住 <a class="loc-link" href="https://www.google.com/maps/search/?api=1&query=2+Bellfield+Lane+Merivale+Avenue+Wanaka">瓦纳卡民宿</a>；湖边探访 <a class="loc-link" href="https://www.google.com/maps/search/?api=1&query=That+Wanaka+Tree">孤独之树 (That Wānaka Tree)</a> 赏落日。</div>
+    </div>
+  </div>
+
+  <!-- Day 5 -->
+  <div class="card day-card">
+    <div class="day-header">
+      <div class="day-title">09.28 周一｜林迪斯隘口与特威泽尔</div>
+      <a class="day-nav-link" target="_blank" href="https://www.google.com/maps/dir/2+Bellfield+Lane,+Wanaka/Lindis+Pass+Lookout/High+Country+Salmon/44+Irishman+Drive,+Twizel">🗺️ 当日全途经点导航</a>
+    </div>
+    <div class="timeline-row">
+      <div class="time-col">10:00</div>
+      <div class="content-col">瓦纳卡退房出发，沿 8 号国道翻越金黄草甸 <a class="loc-link" href="https://www.google.com/maps/search/?api=1&query=Lindis+Pass+Summit+Lookout">Lindis Pass 观景台</a>。</div>
+    </div>
+    <div class="timeline-row">
+      <div class="time-col">13:00</div>
+      <div class="content-col">在 <a class="loc-link" href="https://www.google.com/maps/search/?api=1&query=2602+Twizel-Omarama+Highway">High Country Salmon</a> 喂食高山三文鱼并享用午餐刺身。</div>
+    </div>
+    <div class="timeline-row">
+      <div class="time-col">15:00</div>
+      <div class="content-col">入住特威泽尔大屋 <a class="loc-link" href="https://www.google.com/maps/search/?api=1&query=44+Irishman+Drive+Twizel">44 Irishman Drive</a>，超市补给食材自行烹饪。</div>
+    </div>
+  </div>
+
+  <!-- Day 6 -->
+  <div class="card day-card">
+    <div class="day-header">
+      <div class="day-title">09.29 周二｜库克山国家公园深度徒步</div>
+      <a class="day-nav-link" target="_blank" href="https://www.google.com/maps/dir/44+Irishman+Drive,+Twizel/Peter's+Lookout/Hooker+Valley+track/Tasman+Glacier+View+carpark/44+Irishman+Drive,+Twizel">🗺️ 当日全途经点导航</a>
+    </div>
+    <div class="timeline-row">
+      <div class="time-col">08:30</div>
+      <div class="content-col">沿 80 号最美雪山公路北上，打卡 <a class="loc-link" href="https://www.google.com/maps/search/?api=1&query=Peter's+Lookout+Lake+Pukaki">Peter's Lookout</a> 拍摄蓝色普卡基湖与雪山同框。</div>
+    </div>
+    <div class="timeline-row">
+      <div class="time-col">09:45</div>
+      <div class="content-col">挑战新西兰标志性 <a class="loc-link" href="https://www.google.com/maps/search/?api=1&query=White+Horse+Hill+Campground">Hooker Valley Track 胡克谷步道</a>（往返约3-3.5小时，三座吊桥）。</div>
+    </div>
+    <div class="timeline-row">
+      <div class="time-col">14:00</div>
+      <div class="content-col">轻松登上 <a class="loc-link" href="https://www.google.com/maps/search/?api=1&query=Tasman+Glacier+View+carpark">Tasman Glacier 塔斯曼冰川观景台</a> 远眺终碛湖浮冰；傍晚回特威泽尔。</div>
+    </div>
+  </div>
+
+  <!-- Day 7 -->
+  <div class="card day-card">
+    <div class="day-header">
+      <div class="day-title">09.30 周三｜特卡波湖与星空之乡</div>
+      <a class="day-nav-link" target="_blank" href="https://www.google.com/maps/dir/44+Irishman+Drive,+Twizel/Church+of+the+Good+Shepherd/Astro+Cafe/18+Edwards+Lane,+Lake+Tekapo">🗺️ 当日全途经点导航</a>
+    </div>
+    <div class="timeline-row">
+      <div class="time-col">10:00</div>
+      <div class="content-col">特威泽尔出发前往特卡波湖（车程约45分钟）。</div>
+    </div>
+    <div class="timeline-row">
+      <div class="time-col">11:00</div>
+      <div class="content-col">打卡历史石构建筑 <a class="loc-link" href="https://www.google.com/maps/search/?api=1&query=Church+of+the+Good+Shepherd+Lake+Tekapo">好牧羊人教堂</a>。</div>
+    </div>
+    <div class="timeline-row">
+      <div class="time-col">13:30</div>
+      <div class="content-col">自驾上约翰山，在山顶 <a class="loc-link" href="https://www.google.com/maps/search/?api=1&query=Astro+Cafe+Lake+Tekapo">Astro Café</a> 喝咖啡俯瞰牛奶蓝湖水（需私家路通行费）。</div>
+    </div>
+    <div class="timeline-row">
+      <div class="time-col">15:00</div>
+      <div class="content-col">入住 <a class="loc-link" href="https://www.google.com/maps/search/?api=1&query=18+Edwards+Lane+Lake+Tekapo">18 Edwards Lane</a>；夜晚在国际暗夜保护区核心自行观星。</div>
+    </div>
+  </div>
+
+  <!-- Day 8 -->
+  <div class="card day-card">
+    <div class="day-header">
+      <div class="day-title">10.01 周四｜穿越平原进驻基督城</div>
+      <a class="day-nav-link" target="_blank" href="https://www.google.com/maps/dir/18+Edwards+Lane,+Lake+Tekapo/Fairlie+Bakehouse/Riverside+Market/150+Manchester+Street,+Christchurch">🗺️ 当日全途经点导航</a>
+    </div>
+    <div class="timeline-row">
+      <div class="time-col">10:00</div>
+      <div class="content-col">特卡波出发，停靠 Fairlie 享用著名的 <a class="loc-link" href="https://www.google.com/maps/search/?api=1&query=Fairlie+Bakehouse">Fairlie Bakehouse 脆皮猪肉派</a>。</div>
+    </div>
+    <div class="timeline-row">
+      <div class="time-col">15:00</div>
+      <div class="content-col">抵达基督城，入住市中心 <a class="loc-link" href="https://www.google.com/maps/search/?api=1&query=150+Manchester+Street+Christchurch">150 Manchester Street</a>。</div>
+    </div>
+    <div class="timeline-row">
+      <div class="time-col">16:30</div>
+      <div class="content-col">漫步 <a class="loc-link" href="https://www.google.com/maps/search/?api=1&query=Riverside+Market+Christchurch">Riverside Market 滨河室内集市</a> 探索当地特色美食与工艺。</div>
+    </div>
+  </div>
+
+  <!-- Day 9 -->
+  <div class="card day-card">
+    <div class="day-header">
+      <div class="day-title">10.02 周五｜花园之城古典人文漫游</div>
+      <a class="day-nav-link" target="_blank" href="https://www.google.com/maps/dir/150+Manchester+Street/Christchurch+Botanic+Gardens/The+Arts+Centre/Cardboard+Cathedral/New+Regent+Street">🗺️ 当日全途经点导航</a>
+    </div>
+    <div class="timeline-row">
+      <div class="time-col">10:00</div>
+      <div class="content-col">漫步春花盛开的 <a class="loc-link" href="https://www.google.com/maps/search/?api=1&query=Christchurch+Botanic+Gardens">基督城植物园</a>，可体验雅芳河撑篙泛舟。</div>
+    </div>
+    <div class="timeline-row">
+      <div class="time-col">14:00</div>
+      <div class="content-col">探访地震后重生的 <a class="loc-link" href="https://www.google.com/maps/search/?api=1&query=Cardboard+Cathedral+Christchurch">纸板大教堂</a> 与西班牙风情的 <a class="loc-link" href="https://www.google.com/maps/search/?api=1&query=New+Regent+Street+Christchurch">新摄政街</a> 享用手工冰淇淋。</div>
+    </div>
+  </div>
+
+  <!-- Day 10 -->
+  <div class="card day-card">
+    <div class="day-header">
+      <div class="day-title">10.03 周六｜机场还车・跨塔斯曼海峡</div>
+      <a class="day-nav-link" target="_blank" href="https://www.google.com/maps/dir/150+Manchester+Street/Christchurch+Airport">🗺️ 当日全途经点导航</a>
+    </div>
+    <div class="timeline-row">
+      <div class="time-col">10:00</div>
+      <div class="content-col">基督城民宿退房，市区最后采购伴手礼。</div>
+    </div>
+    <div class="timeline-row">
+      <div class="time-col">15:00</div>
+      <div class="content-col">抵达 <a class="loc-link" href="https://www.google.com/maps/search/?api=1&query=Christchurch+Airport">基督城国际机场</a> 办理还车，国际出发值机与安检。<span class="tag-booked">提前3小时</span></div>
+    </div>
+    <div class="timeline-row">
+      <div class="time-col">18:20</div>
+      <div class="content-col">搭乘阿联酋航空 <b>EK413</b> 飞往悉尼（18:40 抵悉尼，次日 10.04 晚乘 CX138 返港）。</div>
+    </div>
+  </div>
+
+  <!-- 5. 待办清单 -->
+  <div class="sec-title">📝 待办任务清单</div>
+  <div class="card">
+    <ul class="checklist">
+      <li><div class="badge-dot"></div><div><b>办理 NZeTA 与 IVL</b>：确保已在官方 App 提交新西兰电子签与游客税。</div></li>
+      <li><div class="badge-dot"></div><div><b>确认澳大利亚过境签 (Transit Visa 771)</b>：返程在悉尼中转超 24 小时，必须持有有效澳洲签证入境。</div></li>
+      <li><div class="badge-dot"></div><div><b>预订 Skyline 缆车与 Luge</b>：建议在出行前预订 9月26日 傍晚 16:30 场次门票。</div></li>
+      <li><div class="badge-dot"></div><div><b>驾照国际翻译件 (NAATI)</b>：主驾及所有可能开车的人员需带原件+合规翻译件。</div></li>
+      <li><div class="badge-dot"></div><div><b>准备零钱硬币/信用卡</b>：库克山白马山停车场刷卡机、Omarama黏土悬崖自助投币箱需备零钱。</div></li>
+    </ul>
+  </div>
+
+  <!-- 6. 实用贴士 -->
+  <div class="sec-title">💡 实用贴士与安全预警</div>
+  <div class="card">
+    <p style="font-size: 0.85rem; color: var(--text-sub); margin-bottom: 8px;">
+      • <b>夏令时切换</b>：9月27日凌晨新西兰进入夏令时（时钟拨快1小时），比北京时间快 5 小时。
+    </p>
+    <p style="font-size: 0.85rem; color: var(--text-sub); margin-bottom: 8px;">
+      • <b>自驾靠左行</b>：交规严格，转弯让直行、辅道让主道、环岛内右侧车辆优先，切勿压中线行驶。
+    </p>
+    <p style="font-size: 0.85rem; color: var(--text-sub); margin-bottom: 8px;">
+      • <b>春季温差大</b>：库克山胡克谷与跳伞清晨体感接近冰点，请务必备齐冲锋衣与保暖抓绒。
+    </p>
+    <p style="font-size: 0.85rem; color: var(--text-sub);">
+      • <b>紧急求助</b>：新西兰报警/急救/火警通用电话：<b>111</b>。
+    </p>
+  </div>
+
+</div>
+
+<script>
+  // 关键里程碑（带 ISO 8601 时区，完全避免跨时区计算错误）
+  const milestones = [
+    { title: "香港飞奥克兰启程 (CX113)", time: "2026-09-20T21:10:00+08:00", desc: "香港国际机场 T1 登机" },
+    { title: "奥克兰转机飞皇后镇 (JQ293)", time: "2026-09-24T15:00:00+12:00", desc: "奥克兰国内航站楼" },
+    { title: "NZONE 15,000英尺极限跳伞", time: "2026-09-25T07:00:00+12:00", desc: "35 Shotover St, Queenstown" },
+    { title: "Oxbow 飞碟射击体验", time: "2026-09-27T13:00:00+13:00", desc: "2696 Gibbston Hwy (夏令时已启)" },
+    { title: "特威泽尔出发 库克山徒步", time: "2026-09-29T08:30:00+13:00", desc: "前往 Hooker Valley Track" },
+    { title: "基督城还车与离境 (EK413)", time: "2026-10-03T15:30:00+13:00", desc: "基督城国际机场还车" },
+    { title: "悉尼飞香港返程 (CX138)", time: "2026-10-04T22:20:00+10:00", desc: "悉尼机场 T1 登机返港" }
+  ];
+
+  function updateCountdown() {
+    const now = new Date().getTime();
+    let current = null;
+    for (let m of milestones) {
+      const t = new Date(m.time).getTime();
+      if (t > now) {
+        current = { ...m, target: t };
+        break;
+      }
+    }
+
+    if (!current) {
+      document.getElementById('next-title').innerText = "旅程圆满完成 🎉";
+      document.getElementById('next-desc').innerText = "欢迎回家！";
+      document.getElementById('cd-days').innerText = "00";
+      document.getElementById('cd-hours').innerText = "00";
+      document.getElementById('cd-mins').innerText = "00";
+      document.getElementById('cd-secs').innerText = "00";
+      return;
+    }
+
+    document.getElementById('next-title').innerText = current.title;
+    document.getElementById('next-desc').innerText = current.desc;
+
+    const diff = Math.max(0, current.target - now);
+    const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+    const s = Math.floor((diff % (1000 * 60)) / 1000);
+
+    document.getElementById('cd-days').innerText = String(d).padStart(2, '0');
+    document.getElementById('cd-hours').innerText = String(h).padStart(2, '0');
+    document.getElementById('cd-mins').innerText = String(m).padStart(2, '0');
+    document.getElementById('cd-secs').innerText = String(s).padStart(2, '0');
+  }
+
+  setInterval(updateCountdown, 1000);
+  updateCountdown();
+</script>
+
+</body>
+</html>
