@@ -30,6 +30,7 @@
       --rule-border: #ffedd5;
       --rule-text: #9a3412;
       --spot-bg: #f8fafc;
+      --map-bg: #f0f9ff;
       --sidebar-bg: #ffffff;
       --shadow: 0 4px 12px rgba(0,0,0,0.06);
     }
@@ -59,6 +60,7 @@
         --rule-border: #7c2d12;
         --rule-text: #fed7aa;
         --spot-bg: #1e293b;
+        --map-bg: #082f49;
         --sidebar-bg: #1e293b;
         --shadow: 0 4px 12px rgba(0,0,0,0.3);
       }
@@ -231,11 +233,14 @@
     .map-box { text-align: center; overflow: hidden; }
     svg { width: 100%; height: auto; display: block; }
     
-    .mini-svg-map {
-      background: var(--tag-bg);
-      border-radius: 8px;
-      padding: 6px 12px;
+    /* 每日手绘地图风格预览卡片 */
+    .day-map-preview {
+      background: var(--map-bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 8px 12px;
       margin-bottom: 12px;
+      overflow: hidden;
     }
     
     .booking-grid { display: flex; flex-direction: column; gap: 10px; }
@@ -306,7 +311,6 @@
     .tag-must-book { display: inline-block; font-size: 0.65rem; color: #fff; background: var(--danger); padding: 1px 6px; border-radius: 4px; font-weight: 600; margin-left: 4px; }
     .tag-booked { display: inline-block; font-size: 0.65rem; color: #fff; background: #10b981; padding: 1px 6px; border-radius: 4px; font-weight: 600; margin-left: 4px; }
     
-    /* 每日住宿挂载卡片 */
     .hotel-bar {
       margin-top: 14px;
       padding: 10px 12px;
@@ -319,7 +323,6 @@
     }
     .hotel-bar-icon { font-size: 1.1rem; flex-shrink: 0; }
     
-    /* 景点介绍与注意事项扩展卡片 */
     .spots-guide {
       margin-top: 12px;
       border-top: 1px dashed var(--border);
@@ -346,7 +349,6 @@
     .spot-item-desc { color: var(--text); margin-bottom: 4px; }
     .spot-item-tips { color: var(--text-sub); font-size: 0.78rem; line-height: 1.4; }
     
-    /* 交规避坑卡片 */
     .rule-card {
       background: var(--rule-bg);
       border: 1px solid var(--rule-border);
@@ -358,7 +360,6 @@
     }
     .rule-title { font-weight: 700; color: var(--rule-text); margin-bottom: 4px; display: flex; align-items: center; gap: 6px; }
     
-    /* 待办清单 & 本地勾选清单 */
     ul.checklist { list-style: none; }
     ul.checklist li {
       padding: 10px 0;
@@ -370,8 +371,15 @@
     ul.checklist li:last-child { border-bottom: none; }
     .badge-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); margin-top: 7px; flex-shrink: 0; }
     
-    .packing-group { margin-bottom: 14px; }
-    .packing-group-title { font-weight: 700; font-size: 0.9rem; color: var(--primary); margin-bottom: 6px; }
+    .packing-group { margin-bottom: 16px; }
+    .packing-group-title {
+      font-weight: 700;
+      font-size: 0.9rem;
+      color: var(--primary);
+      margin-bottom: 8px;
+      padding-bottom: 4px;
+      border-bottom: 1px solid var(--border);
+    }
     .pack-item {
       display: flex;
       align-items: center;
@@ -384,8 +392,8 @@
     }
     .pack-item:last-child { border-bottom: none; }
     .pack-item input[type="checkbox"] {
-      width: 17px;
-      height: 17px;
+      width: 18px;
+      height: 18px;
       accent-color: var(--primary);
       cursor: pointer;
     }
@@ -398,7 +406,6 @@
 </head>
 <body>
 
-<!-- 移动端顶部标题栏 -->
 <div class="top-bar">
   <button class="menu-btn" onclick="toggleSidebar()" aria-label="打开菜单">☰</button>
   <h1 id="topbar-title">📅 具体行程</h1>
@@ -408,7 +415,6 @@
 <div class="sidebar-overlay" id="overlay" onclick="toggleSidebar()"></div>
 
 <div class="app-layout">
-  <!-- 侧边栏 -->
   <aside class="sidebar" id="sidebar">
     <div class="sidebar-header">
       <div style="font-weight: 800; font-size: 1.05rem;">🇳🇿 新西兰自驾手册</div>
@@ -423,7 +429,7 @@
     <button class="nav-tab" onclick="switchTab('tab-rules', '🚦 交规避坑法则')">
       <span class="tab-icon">🚦</span><span>自驾交规法则</span>
     </button>
-    <button class="nav-tab" onclick="switchTab('tab-checklist', '📝 待办清单')">
+    <button class="nav-tab" onclick="switchTab('tab-checklist', '📝 待办与行李')">
       <span class="tab-icon">📝</span><span>待办与行李</span>
     </button>
     <button class="nav-tab" onclick="switchTab('tab-tips', '💡 实用贴士')">
@@ -431,7 +437,6 @@
     </button>
   </aside>
 
-  <!-- 主内容区 -->
   <main class="content-area">
 
     <!-- ==================== TAB 1: 具体行程 ==================== -->
@@ -482,13 +487,14 @@
           <div class="day-title">09.21 奥克兰 Auckland｜抵纽入住天空城</div>
           <a class="day-nav-link" target="_blank" href="https://www.google.com/maps/dir/Auckland+Airport/Horizon+by+SkyCity,+Hobson+Street,+Auckland+Central,+Auckland/Sky+Tower/Depot+Eatery">🗺️ 当日全途经点导航</a>
         </div>
-        <div class="mini-svg-map">
-          <svg viewBox="0 0 320 36" xmlns="http://www.w3.org/2000/svg">
-            <line x1="25" y1="18" x2="295" y2="18" stroke="var(--border)" stroke-width="2"/>
-            <circle cx="25" cy="18" r="4" fill="#8b5cf6"/><text x="25" y="32" font-size="8" fill="currentColor" text-anchor="middle">11:50 降落</text>
-            <circle cx="115" cy="18" r="4" fill="#0284c7"/><text x="115" y="32" font-size="8" fill="currentColor" text-anchor="middle">SkyDrive直达</text>
-            <circle cx="205" cy="18" r="4" fill="#10b981"/><text x="205" y="32" font-size="8" fill="currentColor" text-anchor="middle">Horizon入住</text>
-            <circle cx="295" cy="18" r="4" fill="#ef4444"/><text x="295" y="32" font-size="8" fill="currentColor" text-anchor="middle">生蚝晚餐</text>
+        <!-- 路线地图预览图 -->
+        <div class="day-map-preview">
+          <svg viewBox="0 0 320 70" xmlns="http://www.w3.org/2000/svg">
+            <rect x="0" y="0" width="320" height="70" fill="none"/>
+            <path d="M 280 60 Q 230 45 150 35 T 50 20" fill="none" stroke="#0284c7" stroke-width="3" stroke-dasharray="4 3"/>
+            <circle cx="280" cy="60" r="5" fill="#8b5cf6"/><text x="280" y="52" font-size="8" fill="currentColor" text-anchor="middle" font-weight="bold">AKL 国际机场</text>
+            <circle cx="150" cy="35" r="4" fill="#0284c7"/><text x="150" y="25" font-size="7.5" fill="currentColor" text-anchor="middle">SkyDrive 快线 (45m)</text>
+            <circle cx="50" cy="20" r="6" fill="#ef4444"/><text x="50" y="12" font-size="8" fill="currentColor" text-anchor="middle" font-weight="bold">Horizon / Sky Tower</text>
           </svg>
         </div>
         <div class="timeline-row">
@@ -531,13 +537,16 @@
           <div class="day-title">09.22 奥克兰 Devonport｜维多利亚渡轮与海景</div>
           <a class="day-nav-link" target="_blank" href="https://www.google.com/maps/dir/Horizon+by+SkyCity/Downtown+Ferry+Terminal,+Auckland/Devonport+Wharf/Mount+Victoria+Reserve/North+Head/Viaduct+Harbour">🗺️ 当日全途经点导航</a>
         </div>
-        <div class="mini-svg-map">
-          <svg viewBox="0 0 320 36" xmlns="http://www.w3.org/2000/svg">
-            <line x1="25" y1="18" x2="295" y2="18" stroke="var(--border)" stroke-width="2"/>
-            <circle cx="25" cy="18" r="4" fill="#0284c7"/><text x="25" y="32" font-size="8" fill="currentColor" text-anchor="middle">码头轮渡</text>
-            <circle cx="115" cy="18" r="4" fill="#10b981"/><text x="115" y="32" font-size="8" fill="currentColor" text-anchor="middle">维多利亚山</text>
-            <circle cx="205" cy="18" r="4" fill="#f59e0b"/><text x="205" y="32" font-size="8" fill="currentColor" text-anchor="middle">北头要塞</text>
-            <circle cx="295" cy="18" r="4" fill="#0284c7"/><text x="295" y="32" font-size="8" fill="currentColor" text-anchor="middle">高架桥海港</text>
+        <!-- 路线地图预览图 -->
+        <div class="day-map-preview">
+          <svg viewBox="0 0 320 70" xmlns="http://www.w3.org/2000/svg">
+            <rect x="0" y="0" width="320" height="70" fill="none"/>
+            <path d="M 60 55 L 120 50 Q 180 35 220 25 L 280 20" fill="none" stroke="#0284c7" stroke-width="3"/>
+            <circle cx="60" cy="55" r="5" fill="#0284c7"/><text x="60" y="47" font-size="7.5" fill="currentColor" text-anchor="middle">SkyCity酒店</text>
+            <circle cx="120" cy="50" r="5" fill="#8b5cf6"/><text x="120" y="65" font-size="7.5" fill="currentColor" text-anchor="middle">渡轮码头 (Pier 1)</text>
+            <path d="M 120 50 L 220 25" stroke="#38bdf8" stroke-width="2" stroke-dasharray="3 3"/>
+            <circle cx="220" cy="25" r="5" fill="#10b981"/><text x="220" y="17" font-size="7.5" fill="currentColor" text-anchor="middle">Mt Victoria</text>
+            <circle cx="280" cy="20" r="5" fill="#f59e0b"/><text x="280" y="32" font-size="7.5" fill="currentColor" text-anchor="middle">North Head要塞</text>
           </svg>
         </div>
         <div class="timeline-row">
@@ -591,13 +600,14 @@
           <div class="day-title">09.23 怀卡托 Waikato｜中土霍比特与萤火虫</div>
           <a class="day-nav-link" target="_blank" href="https://www.google.com/maps/dir/Horizon+by+SkyCity/Hobbiton+Movie+Set/Waitomo+Glowworm+Caves/Horizon+by+SkyCity">🗺️ 一日游往返路线</a>
         </div>
-        <div class="mini-svg-map">
-          <svg viewBox="0 0 320 36" xmlns="http://www.w3.org/2000/svg">
-            <line x1="25" y1="18" x2="295" y2="18" stroke="var(--border)" stroke-width="2"/>
-            <circle cx="25" cy="18" r="4" fill="#0284c7"/><text x="25" y="32" font-size="8" fill="currentColor" text-anchor="middle">酒店大堂接</text>
-            <circle cx="115" cy="18" r="4" fill="#10b981"/><text x="115" y="32" font-size="8" fill="currentColor" text-anchor="middle">Hobbiton魔戒</text>
-            <circle cx="205" cy="18" r="4" fill="#8b5cf6"/><text x="205" y="32" font-size="8" fill="currentColor" text-anchor="middle">Waitomo蓝光洞</text>
-            <circle cx="295" cy="18" r="4" fill="#0284c7"/><text x="295" y="32" font-size="8" fill="currentColor" text-anchor="middle">返回SkyCity</text>
+        <!-- 路线地图预览图 -->
+        <div class="day-map-preview">
+          <svg viewBox="0 0 320 70" xmlns="http://www.w3.org/2000/svg">
+            <rect x="0" y="0" width="320" height="70" fill="none"/>
+            <path d="M 50 15 Q 120 20 220 30 L 160 55 Z" fill="none" stroke="#8b5cf6" stroke-width="2.5" stroke-dasharray="3 3"/>
+            <circle cx="50" cy="15" r="5" fill="#0284c7"/><text x="50" y="27" font-size="7.5" fill="currentColor" text-anchor="middle" font-weight="bold">奥克兰SkyCity</text>
+            <circle cx="220" cy="30" r="6" fill="#10b981"/><text x="220" y="22" font-size="8" fill="currentColor" text-anchor="middle" font-weight="bold">霍比特人村 (Matamata)</text>
+            <circle cx="160" cy="55" r="6" fill="#38bdf8"/><text x="160" y="66" font-size="8" fill="currentColor" text-anchor="middle" font-weight="bold">怀托摩萤火虫洞</text>
           </svg>
         </div>
         <div class="timeline-row">
@@ -649,13 +659,15 @@
           <div class="day-title">09.24 皇后镇 Queenstown｜飞抵南岛・取车补给</div>
           <a class="day-nav-link" target="_blank" href="https://www.google.com/maps/dir/Horizon+by+SkyCity/Auckland+Airport/Queenstown+Airport/PAK'nSAVE+Queenstown/34+Lake+Esplanade,+Queenstown">🗺️ 当日全途经点导航</a>
         </div>
-        <div class="mini-svg-map">
-          <svg viewBox="0 0 320 36" xmlns="http://www.w3.org/2000/svg">
-            <line x1="25" y1="18" x2="295" y2="18" stroke="var(--border)" stroke-width="2"/>
-            <circle cx="25" cy="18" r="4" fill="#0284c7"/><text x="25" y="32" font-size="8" fill="currentColor" text-anchor="middle">SkyDrive</text>
-            <circle cx="105" cy="18" r="4" fill="#8b5cf6"/><text x="105" y="32" font-size="8" fill="currentColor" text-anchor="middle">15:00 JQ293</text>
-            <circle cx="205" cy="18" r="4" fill="#f59e0b"/><text x="205" y="32" font-size="8" fill="currentColor" text-anchor="middle">PAK'nSAVE</text>
-            <circle cx="295" cy="18" r="4" fill="#10b981"/><text x="295" y="32" font-size="8" fill="currentColor" text-anchor="middle">宿皇后镇</text>
+        <!-- 路线地图预览图 -->
+        <div class="day-map-preview">
+          <svg viewBox="0 0 320 70" xmlns="http://www.w3.org/2000/svg">
+            <rect x="0" y="0" width="320" height="70" fill="none"/>
+            <path d="M 40 25 L 120 35 L 200 45 L 280 50" fill="none" stroke="#0284c7" stroke-width="3"/>
+            <circle cx="40" cy="25" r="5" fill="#8b5cf6"/><text x="40" y="17" font-size="7.5" fill="currentColor" text-anchor="middle" font-weight="bold">ZQN 皇后镇机场</text>
+            <circle cx="120" cy="35" r="6" fill="#f59e0b"/><text x="120" y="27" font-size="7.5" fill="currentColor" text-anchor="middle" font-weight="bold">PAK'nSAVE大超市</text>
+            <circle cx="200" cy="45" r="5" fill="#10b981"/><text x="200" y="58" font-size="7.5" fill="currentColor" text-anchor="middle">Lake Esplanade民宿</text>
+            <circle cx="280" cy="50" r="5" fill="#ef4444"/><text x="280" y="42" font-size="7.5" fill="currentColor" text-anchor="middle" font-weight="bold">Fergburger 汉堡</text>
           </svg>
         </div>
         <div class="timeline-row">
@@ -708,13 +720,14 @@
           <div class="day-title">09.25 皇后镇 Queenstown｜高空跳伞与魔戒小镇</div>
           <a class="day-nav-link" target="_blank" href="https://www.google.com/maps/dir/34+Lake+Esplanade,+Queenstown/35+Shotover+Street,+Queenstown/Bennett's+Bluff+Lookout/Glenorchy+Wharf/The+Cow+Restaurant/34+Lake+Esplanade,+Queenstown">🗺️ 当日全途经点导航</a>
         </div>
-        <div class="mini-svg-map">
-          <svg viewBox="0 0 320 36" xmlns="http://www.w3.org/2000/svg">
-            <line x1="25" y1="18" x2="295" y2="18" stroke="var(--border)" stroke-width="2"/>
-            <circle cx="25" cy="18" r="4" fill="#ef4444"/><text x="25" y="32" font-size="8" fill="currentColor" text-anchor="middle">07:00 跳伞</text>
-            <circle cx="115" cy="18" r="4" fill="#0284c7"/><text x="115" y="32" font-size="8" fill="currentColor" text-anchor="middle">最美湖岸路</text>
-            <circle cx="205" cy="18" r="4" fill="#f59e0b"/><text x="205" y="32" font-size="8" fill="currentColor" text-anchor="middle">红房子码头</text>
-            <circle cx="295" cy="18" r="4" fill="#10b981"/><text x="295" y="32" font-size="8" fill="currentColor" text-anchor="middle">The Cow 晚餐</text>
+        <!-- 路线地图预览图 -->
+        <div class="day-map-preview">
+          <svg viewBox="0 0 320 70" xmlns="http://www.w3.org/2000/svg">
+            <rect x="0" y="0" width="320" height="70" fill="none"/>
+            <path d="M 40 50 Q 80 40 140 35 T 260 20" fill="none" stroke="#0284c7" stroke-width="3"/>
+            <circle cx="40" cy="50" r="6" fill="#ef4444"/><text x="40" y="62" font-size="8" fill="currentColor" text-anchor="middle" font-weight="bold">皇后镇 (07:00跳伞)</text>
+            <circle cx="150" cy="35" r="5" fill="#f59e0b"/><text x="150" y="27" font-size="7.5" fill="currentColor" text-anchor="middle">Bennett's Bluff 观景台</text>
+            <circle cx="260" cy="20" r="6" fill="#10b981"/><text x="260" y="12" font-size="8" fill="currentColor" text-anchor="middle" font-weight="bold">格林诺奇红码头</text>
           </svg>
         </div>
         <div class="timeline-row">
@@ -769,13 +782,14 @@
           <div class="day-title">09.26 箭镇 Arrowtown｜淘金遗址与天际缆车</div>
           <a class="day-nav-link" target="_blank" href="https://www.google.com/maps/dir/34+Lake+Esplanade,+Queenstown/Arrowtown+Chinese+Settlement/Patagonia+Chocolates+Queenstown/Skyline+Queenstown">🗺️ 当日全途经点导航</a>
         </div>
-        <div class="mini-svg-map">
-          <svg viewBox="0 0 320 36" xmlns="http://www.w3.org/2000/svg">
-            <line x1="30" y1="18" x2="290" y2="18" stroke="var(--border)" stroke-width="2"/>
-            <circle cx="30" cy="18" r="4" fill="#0284c7"/><text x="30" y="32" font-size="8" fill="currentColor" text-anchor="middle">皇后镇出发</text>
-            <circle cx="120" cy="18" r="4" fill="#f59e0b"/><text x="120" y="32" font-size="8" fill="currentColor" text-anchor="middle">箭镇咖啡午餐</text>
-            <circle cx="210" cy="18" r="4" fill="#10b981"/><text x="210" y="32" font-size="8" fill="currentColor" text-anchor="middle">Patagonia甜品</text>
-            <circle cx="290" cy="18" r="4" fill="#ef4444"/><text x="290" y="32" font-size="8" fill="currentColor" text-anchor="middle">Skyline夜景</text>
+        <!-- 路线地图预览图 -->
+        <div class="day-map-preview">
+          <svg viewBox="0 0 320 70" xmlns="http://www.w3.org/2000/svg">
+            <rect x="0" y="0" width="320" height="70" fill="none"/>
+            <path d="M 60 50 Q 150 20 220 20 L 60 50" fill="none" stroke="#f59e0b" stroke-width="2.5"/>
+            <circle cx="60" cy="50" r="5" fill="#0284c7"/><text x="60" y="62" font-size="7.5" fill="currentColor" text-anchor="middle" font-weight="bold">皇后镇湖滨</text>
+            <circle cx="220" cy="20" r="6" fill="#f59e0b"/><text x="220" y="12" font-size="8" fill="currentColor" text-anchor="middle" font-weight="bold">箭镇华人淘金遗址 (20km)</text>
+            <circle cx="80" cy="40" r="5" fill="#ef4444"/><text x="95" y="32" font-size="7.5" fill="currentColor" font-weight="bold">Skyline 缆车+Luge</text>
           </svg>
         </div>
         <div class="timeline-row">
@@ -836,13 +850,15 @@
           <div class="day-title">09.27 瓦纳卡 Wānaka｜飞碟射击与孤独之树</div>
           <a class="day-nav-link" target="_blank" href="https://www.google.com/maps/dir/34+Lake+Esplanade,+Queenstown/Kinross+Winery/2696+Gibbston+Highway/Big+Fig+Wanaka/2+Bellfield+Lane,+Wanaka">🗺️ 当日全途经点导航</a>
         </div>
-        <div class="mini-svg-map">
-          <svg viewBox="0 0 320 36" xmlns="http://www.w3.org/2000/svg">
-            <line x1="25" y1="18" x2="295" y2="18" stroke="var(--border)" stroke-width="2"/>
-            <circle cx="25" cy="18" r="4" fill="#0284c7"/><text x="25" y="32" font-size="8" fill="currentColor" text-anchor="middle">退房</text>
-            <circle cx="105" cy="18" r="4" fill="#10b981"/><text x="105" y="32" font-size="8" fill="currentColor" text-anchor="middle">Kinross午餐</text>
-            <circle cx="185" cy="18" r="4" fill="#ef4444"/><text x="185" y="32" font-size="8" fill="currentColor" text-anchor="middle">13:00 射击</text>
-            <circle cx="295" cy="18" r="4" fill="#0284c7"/><text x="295" y="32" font-size="8" fill="currentColor" text-anchor="middle">瓦纳卡宿</text>
+        <!-- 路线地图预览图 -->
+        <div class="day-map-preview">
+          <svg viewBox="0 0 320 70" xmlns="http://www.w3.org/2000/svg">
+            <rect x="0" y="0" width="320" height="70" fill="none"/>
+            <path d="M 30 55 L 110 45 L 150 40 Q 210 35 270 20" fill="none" stroke="#10b981" stroke-width="3"/>
+            <circle cx="30" cy="55" r="5" fill="#0284c7"/><text x="30" y="65" font-size="7.5" fill="currentColor" text-anchor="middle">皇后镇退房</text>
+            <circle cx="110" cy="45" r="5" fill="#10b981"/><text x="110" y="37" font-size="7.5" fill="currentColor" text-anchor="middle">Kinross酒庄</text>
+            <circle cx="150" cy="40" r="5" fill="#ef4444"/><text x="150" y="52" font-size="7.5" fill="currentColor" text-anchor="middle" font-weight="bold">13:00 Oxbow射击</text>
+            <circle cx="270" cy="20" r="6" fill="#0284c7"/><text x="270" y="12" font-size="8" fill="currentColor" text-anchor="middle" font-weight="bold">瓦纳卡孤独之树</text>
           </svg>
         </div>
         <div class="timeline-row">
@@ -892,14 +908,15 @@
           <div class="day-title">09.28 特威泽尔 Twizel｜林迪斯隘口与高山三文鱼</div>
           <a class="day-nav-link" target="_blank" href="https://www.google.com/maps/dir/2+Bellfield+Lane,+Wanaka/Lindis+Pass+Lookout/High+Country+Salmon/Mobil+Twizel/44+Irishman+Drive,+Twizel">🗺️ 当日全途经点导航</a>
         </div>
-        <div class="mini-svg-map">
-          <svg viewBox="0 0 320 36" xmlns="http://www.w3.org/2000/svg">
-            <line x1="20" y1="18" x2="300" y2="18" stroke="var(--border)" stroke-width="2"/>
-            <circle cx="20" cy="18" r="4" fill="#0284c7"/><text x="20" y="32" font-size="8" fill="currentColor" text-anchor="middle">瓦纳卡出发</text>
-            <circle cx="100" cy="18" r="4" fill="#f59e0b"/><text x="100" y="32" font-size="8" fill="currentColor" text-anchor="middle">Lindis Pass</text>
-            <circle cx="180" cy="18" r="4" fill="#10b981"/><text x="180" y="32" font-size="8" fill="currentColor" text-anchor="middle">三文鱼午餐</text>
-            <circle cx="250" cy="18" r="4" fill="#b45309"/><text x="250" y="32" font-size="8" fill="currentColor" text-anchor="middle">⛽Twizel加满</text>
-            <circle cx="300" cy="18" r="4" fill="#0284c7"/><text x="300" y="32" font-size="8" fill="currentColor" text-anchor="middle">民宿自炊</text>
+        <!-- 路线地图预览图 -->
+        <div class="day-map-preview">
+          <svg viewBox="0 0 320 70" xmlns="http://www.w3.org/2000/svg">
+            <rect x="0" y="0" width="320" height="70" fill="none"/>
+            <path d="M 30 55 Q 90 40 140 25 T 230 35 L 290 40" fill="none" stroke="#f59e0b" stroke-width="3"/>
+            <circle cx="30" cy="55" r="5" fill="#0284c7"/><text x="30" y="65" font-size="7.5" fill="currentColor" text-anchor="middle">瓦纳卡出发</text>
+            <circle cx="140" cy="25" r="6" fill="#f59e0b"/><text x="140" y="16" font-size="8" fill="currentColor" text-anchor="middle" font-weight="bold">Lindis Pass (971m)</text>
+            <circle cx="230" cy="35" r="5" fill="#10b981"/><text x="230" y="27" font-size="7.5" fill="currentColor" text-anchor="middle">高山三文鱼</text>
+            <circle cx="290" cy="40" r="5" fill="#0284c7"/><text x="290" y="52" font-size="7.5" fill="currentColor" text-anchor="middle" font-weight="bold">Twizel 民宿</text>
           </svg>
         </div>
         <div class="timeline-row">
@@ -956,13 +973,14 @@
           <div class="day-title">09.29 库克山 Mt Cook｜冰川步道与雪山倒影</div>
           <a class="day-nav-link" target="_blank" href="https://www.google.com/maps/dir/44+Irishman+Drive,+Twizel/Peter's+Lookout/Hooker+Valley+track/The+Hermitage+Hotel/44+Irishman+Drive,+Twizel">🗺️ 当日全途经点导航</a>
         </div>
-        <div class="mini-svg-map">
-          <svg viewBox="0 0 320 36" xmlns="http://www.w3.org/2000/svg">
-            <line x1="25" y1="18" x2="295" y2="18" stroke="var(--border)" stroke-width="2"/>
-            <circle cx="25" cy="18" r="4" fill="#0284c7"/><text x="25" y="32" font-size="8" fill="currentColor" text-anchor="middle">满油出发</text>
-            <circle cx="105" cy="18" r="4" fill="#f59e0b"/><text x="105" y="32" font-size="8" fill="currentColor" text-anchor="middle">Peter's Lookout</text>
-            <circle cx="200" cy="18" r="4" fill="#10b981"/><text x="200" y="32" font-size="8" fill="currentColor" text-anchor="middle">胡克谷/吊桥机位</text>
-            <circle cx="295" cy="18" r="4" fill="#0284c7"/><text x="295" y="32" font-size="8" fill="currentColor" text-anchor="middle">Hermitage休息</text>
+        <!-- 路线地图预览图 -->
+        <div class="day-map-preview">
+          <svg viewBox="0 0 320 70" xmlns="http://www.w3.org/2000/svg">
+            <rect x="0" y="0" width="320" height="70" fill="none"/>
+            <path d="M 50 60 L 130 45 L 260 20 L 50 60" fill="none" stroke="#38bdf8" stroke-width="2.5"/>
+            <circle cx="50" cy="60" r="5" fill="#0284c7"/><text x="50" y="52" font-size="7.5" fill="currentColor" text-anchor="middle">Twizel民宿</text>
+            <circle cx="130" cy="45" r="5" fill="#0284c7"/><text x="130" y="37" font-size="7.5" fill="currentColor" text-anchor="middle">Peter's 观景台</text>
+            <circle cx="260" cy="20" r="6" fill="#38bdf8"/><text x="260" y="12" font-size="8" fill="currentColor" text-anchor="middle" font-weight="bold">Hooker Valley 冰川步道</text>
           </svg>
         </div>
         <div class="timeline-row">
@@ -1012,13 +1030,15 @@
           <div class="day-title">09.30 特卡波湖 Tekapo｜好牧羊人教堂与暗夜星空</div>
           <a class="day-nav-link" target="_blank" href="https://www.google.com/maps/dir/44+Irishman+Drive,+Twizel/Church+of+the+Good+Shepherd/Astro+Cafe/Kohan+Restaurant/18+Edwards+Lane,+Lake+Tekapo">🗺️ 当日全途经点导航</a>
         </div>
-        <div class="mini-svg-map">
-          <svg viewBox="0 0 320 36" xmlns="http://www.w3.org/2000/svg">
-            <line x1="30" y1="18" x2="290" y2="18" stroke="var(--border)" stroke-width="2"/>
-            <circle cx="30" cy="18" r="4" fill="#0284c7"/><text x="30" y="32" font-size="8" fill="currentColor" text-anchor="middle">Twizel退房</text>
-            <circle cx="110" cy="18" r="4" fill="#f59e0b"/><text x="110" y="32" font-size="8" fill="currentColor" text-anchor="middle">好牧羊人教堂</text>
-            <circle cx="190" cy="18" r="4" fill="#10b981"/><text x="190" y="32" font-size="8" fill="currentColor" text-anchor="middle">Astro/JackRabbit</text>
-            <circle cx="290" cy="18" r="4" fill="#8b5cf6"/><text x="290" y="32" font-size="8" fill="currentColor" text-anchor="middle">湖畔日料观星</text>
+        <!-- 路线地图预览图 -->
+        <div class="day-map-preview">
+          <svg viewBox="0 0 320 70" xmlns="http://www.w3.org/2000/svg">
+            <rect x="0" y="0" width="320" height="70" fill="none"/>
+            <path d="M 40 50 L 160 40 L 220 20 L 280 45" fill="none" stroke="#8b5cf6" stroke-width="3"/>
+            <circle cx="40" cy="50" r="5" fill="#0284c7"/><text x="40" y="62" font-size="7.5" fill="currentColor" text-anchor="middle">Twizel退房</text>
+            <circle cx="160" cy="40" r="6" fill="#f59e0b"/><text x="160" y="32" font-size="8" fill="currentColor" text-anchor="middle" font-weight="bold">好牧羊人教堂</text>
+            <circle cx="220" cy="20" r="5" fill="#10b981"/><text x="220" y="12" font-size="7.5" fill="currentColor" text-anchor="middle">Astro Cafe (约翰山)</text>
+            <circle cx="280" cy="45" r="5" fill="#8b5cf6"/><text x="280" y="57" font-size="7.5" fill="currentColor" text-anchor="middle">Tekapo民宿观星</text>
           </svg>
         </div>
         <div class="timeline-row">
@@ -1068,13 +1088,15 @@
           <div class="day-title">10.01 基督城 Christchurch｜平原小镇进驻花园之城</div>
           <a class="day-nav-link" target="_blank" href="https://www.google.com/maps/dir/18+Edwards+Lane,+Lake+Tekapo/Fairlie+Bakehouse/Riverside+Market/Rollickin+Gelato/150+Manchester+Street,+Christchurch">🗺️ 当日全途经点导航</a>
         </div>
-        <div class="mini-svg-map">
-          <svg viewBox="0 0 320 36" xmlns="http://www.w3.org/2000/svg">
-            <line x1="25" y1="18" x2="295" y2="18" stroke="var(--border)" stroke-width="2"/>
-            <circle cx="25" cy="18" r="4" fill="#0284c7"/><text x="25" y="32" font-size="8" fill="currentColor" text-anchor="middle">特卡波出发</text>
-            <circle cx="110" cy="18" r="4" fill="#f59e0b"/><text x="110" y="32" font-size="8" fill="currentColor" text-anchor="middle">Fairlie神级肉派</text>
-            <circle cx="210" cy="18" r="4" fill="#10b981"/><text x="210" y="32" font-size="8" fill="currentColor" text-anchor="middle">Riverside集市</text>
-            <circle cx="295" cy="18" r="4" fill="#ef4444"/><text x="295" y="32" font-size="8" fill="currentColor" text-anchor="middle">基督城入住</text>
+        <!-- 路线地图预览图 -->
+        <div class="day-map-preview">
+          <svg viewBox="0 0 320 70" xmlns="http://www.w3.org/2000/svg">
+            <rect x="0" y="0" width="320" height="70" fill="none"/>
+            <path d="M 30 50 L 100 40 L 220 30 L 290 20" fill="none" stroke="#ef4444" stroke-width="3"/>
+            <circle cx="30" cy="50" r="5" fill="#0284c7"/><text x="30" y="62" font-size="7.5" fill="currentColor" text-anchor="middle">特卡波出发</text>
+            <circle cx="100" cy="40" r="6" fill="#f59e0b"/><text x="100" y="32" font-size="8" fill="currentColor" text-anchor="middle" font-weight="bold">Fairlie 肉派神店</text>
+            <circle cx="220" cy="30" r="5" fill="#10b981"/><text x="220" y="22" font-size="7.5" fill="currentColor" text-anchor="middle">坎特伯雷大平原</text>
+            <circle cx="290" cy="20" r="6" fill="#ef4444"/><text x="290" y="32" font-size="8" fill="currentColor" text-anchor="middle" font-weight="bold">基督城入住</text>
           </svg>
         </div>
         <div class="timeline-row">
@@ -1120,14 +1142,15 @@
           <div class="day-title">10.02 基督城 Christchurch｜复古集合店与干式熟成牛排</div>
           <a class="day-nav-link" target="_blank" href="https://www.google.com/maps/dir/150+Manchester+Street/The+Woolston+Emporium/Eden+Alley+Korean+Restaurant/Christchurch+Botanic+Gardens/Bessie+Christchurch/150+Manchester+Street">🗺️ 当日全途经点导航</a>
         </div>
-        <div class="mini-svg-map">
-          <svg viewBox="0 0 320 36" xmlns="http://www.w3.org/2000/svg">
-            <line x1="25" y1="18" x2="295" y2="18" stroke="var(--border)" stroke-width="2"/>
-            <circle cx="25" cy="18" r="4" fill="#0284c7"/><text x="25" y="32" font-size="8" fill="currentColor" text-anchor="middle">民宿出发</text>
-            <circle cx="100" cy="18" r="4" fill="#8b5cf6"/><text x="100" y="32" font-size="8" fill="currentColor" text-anchor="middle">复古Emporium</text>
-            <circle cx="180" cy="18" r="4" fill="#10b981"/><text x="180" y="32" font-size="8" fill="currentColor" text-anchor="middle">Eden Alley韩餐</text>
-            <circle cx="250" cy="18" r="4" fill="#f59e0b"/><text x="250" y="32" font-size="8" fill="currentColor" text-anchor="middle">植物园漫步</text>
-            <circle cx="295" cy="18" r="4" fill="#ef4444"/><text x="295" y="32" font-size="8" fill="currentColor" text-anchor="middle">Bessie牛排</text>
+        <!-- 路线地图预览图 -->
+        <div class="day-map-preview">
+          <svg viewBox="0 0 320 70" xmlns="http://www.w3.org/2000/svg">
+            <rect x="0" y="0" width="320" height="70" fill="none"/>
+            <path d="M 60 50 L 140 20 L 220 35 L 270 50" fill="none" stroke="#10b981" stroke-width="2.5"/>
+            <circle cx="60" cy="50" r="5" fill="#0284c7"/><text x="60" y="62" font-size="7.5" fill="currentColor" text-anchor="middle">Manchester民宿</text>
+            <circle cx="140" cy="20" r="6" fill="#8b5cf6"/><text x="140" y="12" font-size="8" fill="currentColor" text-anchor="middle" font-weight="bold">Woolston复古店</text>
+            <circle cx="220" cy="35" r="5" fill="#10b981"/><text x="220" y="27" font-size="7.5" fill="currentColor" text-anchor="middle">Eden Alley韩餐</text>
+            <circle cx="270" cy="50" r="6" fill="#ef4444"/><text x="270" y="62" font-size="7.5" fill="currentColor" text-anchor="middle" font-weight="bold">Bessie牛排</text>
           </svg>
         </div>
         <div class="timeline-row">
@@ -1176,13 +1199,15 @@
           <div class="day-title">10.03 悉尼 Sydney｜满油还车・飞抵悉尼</div>
           <a class="day-nav-link" target="_blank" href="https://www.google.com/maps/dir/150+Manchester+Street/Mobil+Christchurch+Airport/Christchurch+Airport">🗺️ 当日导航 (含还车前加油)</a>
         </div>
-        <div class="mini-svg-map">
-          <svg viewBox="0 0 320 36" xmlns="http://www.w3.org/2000/svg">
-            <line x1="25" y1="18" x2="295" y2="18" stroke="var(--border)" stroke-width="2"/>
-            <circle cx="25" cy="18" r="4" fill="#0284c7"/><text x="25" y="32" font-size="8" fill="currentColor" text-anchor="middle">民宿退房</text>
-            <circle cx="115" cy="18" r="4" fill="#b45309"/><text x="115" y="32" font-size="8" fill="currentColor" text-anchor="middle">⛽机场外加满</text>
-            <circle cx="215" cy="18" r="4" fill="#ef4444"/><text x="215" y="32" font-size="8" fill="currentColor" text-anchor="middle">还车离境</text>
-            <circle cx="295" cy="18" r="4" fill="#10b981"/><text x="295" y="32" font-size="8" fill="currentColor" text-anchor="middle">抵悉尼Moxy</text>
+        <!-- 路线地图预览图 -->
+        <div class="day-map-preview">
+          <svg viewBox="0 0 320 70" xmlns="http://www.w3.org/2000/svg">
+            <rect x="0" y="0" width="320" height="70" fill="none"/>
+            <path d="M 40 50 L 140 45 L 200 35 Q 240 25 280 20" fill="none" stroke="#ef4444" stroke-width="2.5"/>
+            <circle cx="40" cy="50" r="5" fill="#0284c7"/><text x="40" y="62" font-size="7.5" fill="currentColor" text-anchor="middle">基督城市区退房</text>
+            <circle cx="140" cy="45" r="5" fill="#b45309"/><text x="140" y="37" font-size="7.5" fill="currentColor" text-anchor="middle">⛽机场外加油站</text>
+            <circle cx="200" cy="35" r="5" fill="#ef4444"/><text x="200" y="27" font-size="7.5" fill="currentColor" text-anchor="middle">CHC还车离境</text>
+            <circle cx="280" cy="20" r="6" fill="#10b981"/><text x="280" y="32" font-size="8" fill="currentColor" text-anchor="middle" font-weight="bold">悉尼 Moxy 酒店</text>
           </svg>
         </div>
         <div class="timeline-row">
@@ -1241,13 +1266,15 @@
           <div class="day-title">10.04 悉尼 Sydney｜歌剧院轻装漫步・踏上归途</div>
           <a class="day-nav-link" target="_blank" href="https://www.google.com/maps/dir/Moxy+Sydney+Airport/Sydney+Opera+House/Mrs+Macquaries+Chair/Queen+Victoria+Building/Sydney+Kingsford+Smith+Airport">🗺️ 悉尼公共交通与漫步路线</a>
         </div>
-        <div class="mini-svg-map">
-          <svg viewBox="0 0 320 36" xmlns="http://www.w3.org/2000/svg">
-            <line x1="25" y1="18" x2="295" y2="18" stroke="var(--border)" stroke-width="2"/>
-            <circle cx="25" cy="18" r="4" fill="#0284c7"/><text x="25" y="32" font-size="8" fill="currentColor" text-anchor="middle">Moxy存包</text>
-            <circle cx="105" cy="18" r="4" fill="#10b981"/><text x="105" y="32" font-size="8" fill="currentColor" text-anchor="middle">歌剧院&午餐</text>
-            <circle cx="195" cy="18" r="4" fill="#f59e0b"/><text x="195" y="32" font-size="8" fill="currentColor" text-anchor="middle">QVB逛街</text>
-            <circle cx="295" cy="18" r="4" fill="#ef4444"/><text x="295" y="32" font-size="8" fill="currentColor" text-anchor="middle">22:20 CX138</text>
+        <!-- 路线地图预览图 -->
+        <div class="day-map-preview">
+          <svg viewBox="0 0 320 70" xmlns="http://www.w3.org/2000/svg">
+            <rect x="0" y="0" width="320" height="70" fill="none"/>
+            <path d="M 50 55 L 140 30 L 220 20 L 280 60" fill="none" stroke="#0284c7" stroke-width="2.5" stroke-dasharray="3 3"/>
+            <circle cx="50" cy="55" r="5" fill="#0284c7"/><text x="50" y="66" font-size="7.5" fill="currentColor" text-anchor="middle">Moxy存包</text>
+            <circle cx="140" cy="30" r="6" fill="#10b981"/><text x="140" y="22" font-size="8" fill="currentColor" text-anchor="middle" font-weight="bold">悉尼歌剧院</text>
+            <circle cx="220" cy="20" r="5" fill="#f59e0b"/><text x="220" y="12" font-size="7.5" fill="currentColor" text-anchor="middle">QVB 维多利亚大厦</text>
+            <circle cx="280" cy="60" r="6" fill="#ef4444"/><text x="280" y="52" font-size="8" fill="currentColor" text-anchor="middle" font-weight="bold">SYD T1 返港</text>
           </svg>
         </div>
         <div class="timeline-row">
@@ -1404,51 +1431,98 @@
           </li>
           <li>
             <div class="badge-dot"></div>
+            <div><b>提前24小时填写 NZTD 电子入境申报</b>：手机下载 NZTD App，起飞前24小时内如实申报（来不及也可飞机上填纸质版）。</div>
+          </li>
+          <li>
+            <div class="badge-dot"></div>
             <div><b>预订 Skyline 缆车与 Luge</b>：锁定 9月26日 傍晚 16:30 场次门票。</div>
           </li>
           <li>
             <div class="badge-dot"></div>
-            <div><b>准备 NAATI 驾照翻译件</b>：主驾带中国驾照原件 + 合规 NAATI 英文翻译件。</div>
+            <div><b>准备 NAATI 驾照翻译件</b>：主驾带中国驾照原件 + 合规 NAATI 英文翻译件随身携带。</div>
           </li>
         </ul>
       </div>
 
       <!-- 可勾选行李清单 (Local Storage 独立保存在各自手机/浏览器) -->
-      <div class="sec-title">🧳 行前必带物品清单 (各自勾选・本地记忆)</div>
+      <div class="sec-title">🧳 行前必带物品清单 (J人实战版・本地记忆)</div>
       <div class="card">
+        
+        <!-- 1. 证件与财务 -->
         <div class="packing-group">
-          <div class="packing-group-title">🪪 证件与财务</div>
-          <label class="pack-item"><input type="checkbox" data-id="p1"><span>护照原件（有效期 6 个月以上）</span></label>
-          <label class="pack-item"><input type="checkbox" data-id="p2"><span>中国驾照原件 + NAATI 国际翻译件</span></label>
-          <label class="pack-item"><input type="checkbox" data-id="p3"><span>多币种 Visa / Mastercard 信用卡（支持非接感应）</span></label>
-          <label class="pack-item"><input type="checkbox" data-id="p4"><span>50-100 纽币现金（备硬币投币箱）</span></label>
-          <label class="pack-item"><input type="checkbox" data-id="p5"><span>机票、酒店、租车确认单电子版存离线</span></label>
+          <div class="packing-group-title">🪪 1. 证件与财务支付</div>
+          <label class="pack-item"><input type="checkbox" data-id="p1"><span>护照原件（有效期半年以上）+ 身份证</span></label>
+          <label class="pack-item"><input type="checkbox" data-id="p2"><span>新西兰签证 / NZeTA 确认单（建议彩色打印纸质版备用）</span></label>
+          <label class="pack-item"><input type="checkbox" data-id="p3"><span>驾照原件 + NAATI 认证英文翻译件</span></label>
+          <label class="pack-item"><input type="checkbox" data-id="p4"><span>Visa / Mastercard 芯片信用卡（确认无货币转换费或提前报备）</span></label>
+          <label class="pack-item"><input type="checkbox" data-id="p5"><span>少量纽币现金（50-100NZD，备硬币/投币箱）</span></label>
+          <label class="pack-item"><input type="checkbox" data-id="p6"><span>往返机票行程单、酒店预订单、租车确认单打印件与离线电子版</span></label>
+          <label class="pack-item"><input type="checkbox" data-id="p7"><span>境外旅行商业保险保单（救援+医疗保障）</span></label>
         </div>
 
+        <!-- 2. 长途飞行缓解疲劳 -->
         <div class="packing-group">
-          <div class="packing-group-title">🧥 衣物与穿戴（南阿尔卑斯三层洋葱穿衣法）</div>
-          <label class="pack-item"><input type="checkbox" data-id="p6"><span>防风防雨硬壳冲锋衣（湖区与高空风大必备）</span></label>
-          <label class="pack-item"><input type="checkbox" data-id="p7"><span>轻薄抓绒衣 / 羽绒内胆（清晨跳伞体感逼近 0°C）</span></label>
-          <label class="pack-item"><input type="checkbox" data-id="p8"><span>防滑舒适徒步鞋（鞋底务必彻底刷洗干净泥土）</span></label>
-          <label class="pack-item"><input type="checkbox" data-id="p9"><span>偏光墨镜（雪山湖面折射强烈防雪盲）</span></label>
-          <label class="pack-item"><input type="checkbox" data-id="p10"><span>魔术头巾 / 遮阳帽 / 抓绒保暖帽</span></label>
+          <div class="packing-group-title">✈️ 2. 长途飞行缓解疲劳相关</div>
+          <label class="pack-item"><input type="checkbox" data-id="p8"><span>充气/记忆棉颈枕（11小时长途航程必备）</span></label>
+          <label class="pack-item"><input type="checkbox" data-id="p9"><span>隔音防噪耳塞（如安耳悠/德国耳塞）</span></label>
+          <label class="pack-item"><input type="checkbox" data-id="p10"><span>立体遮光眼罩（机上休眠）</span></label>
+          <label class="pack-item"><input type="checkbox" data-id="p11"><span>便携珊瑚绒拖鞋 / 厚保暖袜（机舱空调冷且脚易水肿）</span></label>
         </div>
 
+        <!-- 3. 衣物与穿戴 -->
         <div class="packing-group">
-          <div class="packing-group-title">🔌 电子与车载装备</div>
-          <label class="pack-item"><input type="checkbox" data-id="p11"><span>纽澳专用八字扁脚转换插头 / 接线板</span></label>
-          <label class="pack-item"><input type="checkbox" data-id="p12"><span>车载手机支架（自驾导航必备神物）</span></label>
-          <label class="pack-item"><input type="checkbox" data-id="p13"><span>车载点烟器快充头 + 充足充电线</span></label>
-          <label class="pack-item"><input type="checkbox" data-id="p14"><span>大容量充电宝（不可托运，必须随身登机）</span></label>
+          <div class="packing-group-title">🧥 3. 衣物与保暖防风</div>
+          <label class="pack-item"><input type="checkbox" data-id="p12"><span>三合一冲锋衣（防风防水硬壳+内胆，高空湖畔风极大必备）</span></label>
+          <label class="pack-item"><input type="checkbox" data-id="p13"><span>轻薄抓绒衣 / 羽绒服（清晨跳伞体感逼近 0°C）</span></label>
+          <label class="pack-item"><input type="checkbox" data-id="p14"><span>防滑舒适徒步鞋 / 运动鞋（鞋底务必提前彻底刷洗干净泥土！）</span></label>
+          <label class="pack-item"><input type="checkbox" data-id="p15"><span>偏光墨镜 + 帽子（<b>帽子一定要买紧一点或带系绳，不然极易被大风吹跑</b>）</span></label>
+          <label class="pack-item"><input type="checkbox" data-id="p16"><span>保暖围巾 / 丝巾 / 魔术头巾</span></label>
+          <label class="pack-item"><input type="checkbox" data-id="p17"><span>一次性内裤 + 一次性袜子（自驾轻装出行神器）</span></label>
+          <label class="pack-item"><input type="checkbox" data-id="p18"><span>拍照首饰与小饰品（项链/耳饰/手链）</span></label>
         </div>
 
+        <!-- 4. 护肤品与化妆品 -->
         <div class="packing-group">
-          <div class="packing-group-title">💊 个人护理与药品</div>
-          <label class="pack-item"><input type="checkbox" data-id="p15"><span>高倍数防晒霜 SPF50+（新西兰臭氧空洞紫外线极强）</span></label>
-          <label class="pack-item"><input type="checkbox" data-id="p16"><span>高保湿唇膏与身体乳（内陆气候干燥）</span></label>
-          <label class="pack-item"><input type="checkbox" data-id="p17"><span>个人常用药品（晕车药、肠胃药、感冒药，需带英文说明并申报）</span></label>
-          <label class="pack-item"><input type="checkbox" data-id="p18"><span>便携保温水杯（山区沿途接热水极实用）</span></label>
+          <div class="packing-group-title">🧴 4. 护肤品与化妆品</div>
+          <label class="pack-item"><input type="checkbox" data-id="p19"><span>高倍数防晒霜（如安耐晒/大哥大，南半球臭氧空洞紫外线极烈）</span></label>
+          <label class="pack-item"><input type="checkbox" data-id="p20"><span>洁面乳 + 纯棉一次性洗脸巾</span></label>
+          <label class="pack-item"><input type="checkbox" data-id="p21"><span>高保湿水+乳+精华 + 保湿面膜（早春内陆干燥易起皮）</span></label>
+          <label class="pack-item"><input type="checkbox" data-id="p22"><span>卸妆膏 / 卸妆油</span></label>
+          <label class="pack-item"><input type="checkbox" data-id="p23"><span>日常彩妆（底妆、遮瑕、散粉、眉笔、眼影眼线、腮红口红）</span></label>
+          <label class="pack-item"><input type="checkbox" data-id="p24"><span>睫毛膏 + 睫毛夹 + 假睫毛/胶水/镊子</span></label>
         </div>
+
+        <!-- 5. 数码电子与车载 -->
+        <div class="packing-group">
+          <div class="packing-group-title">🔌 5. 数码电子与车载装备</div>
+          <label class="pack-item"><input type="checkbox" data-id="p25"><span>纽澳专用八字扁孔插线板（国标三孔可直插，带插线板省去转接头）</span></label>
+          <label class="pack-item"><input type="checkbox" data-id="p26"><span>大容量充电宝（<b>严禁托运，必须随身登机，容量符合航司规定</b>）</span></label>
+          <label class="pack-item"><input type="checkbox" data-id="p27"><span>车载手机支架（自驾导航神物，以防租借车辆无CarPlay）</span></label>
+          <label class="pack-item"><input type="checkbox" data-id="p28"><span>车载点烟器快充头 + 充足充电线</span></label>
+          <label class="pack-item"><input type="checkbox" data-id="p29"><span>取卡针 + 当地电话卡（如 Spark/One NZ）或已开通漫游流量</span></label>
+          <label class="pack-item"><input type="checkbox" data-id="p30"><span>微单/相机 + 备用电池 + SD大容量存储卡</span></label>
+        </div>
+
+        <!-- 6. 日用品与生活卫生 -->
+        <div class="packing-group">
+          <div class="packing-group-title">🧻 6. 日用杂物与卫生细节</div>
+          <label class="pack-item"><input type="checkbox" data-id="p31"><span>便携塑料拖鞋（<b>大部分新西兰民宿/酒店完全不备拖鞋，必带！</b>）</span></label>
+          <label class="pack-item"><input type="checkbox" data-id="p32"><span>垃圾袋 / 塑料分装袋（当地环保极少给塑料袋，车内丢垃圾必备）</span></label>
+          <label class="pack-item"><input type="checkbox" data-id="p33"><span>抽纸巾 + 湿厕纸（当地公厕与民宿用纸较薄，自带更舒服）</span></label>
+          <label class="pack-item"><input type="checkbox" data-id="p34"><span>便携牙刷 + 牙膏 + 牙杯（牙膏单支小于100ml方便登机）</span></label>
+          <label class="pack-item"><input type="checkbox" data-id="p35"><span>压缩毛巾 / 一次性大浴巾</span></label>
+          <label class="pack-item"><input type="checkbox" data-id="p36"><span>便携保温水杯（山区自驾沿途接热水极实用）</span></label>
+          <label class="pack-item"><input type="checkbox" data-id="p37"><span>指甲剪 / 梳子 / 护发精油</span></label>
+        </div>
+
+        <!-- 7. 药品与食品 -->
+        <div class="packing-group">
+          <div class="packing-group-title">💊 7. 药品与中国胃救急干粮</div>
+          <label class="pack-item"><input type="checkbox" data-id="p38"><span>个人常备药：晕车药、肠胃药、止痛退烧感冒药（带原包装和英文说明书，入境如实申报）</span></label>
+          <label class="pack-item"><input type="checkbox" data-id="p39"><span>中国胃救急调味：小包装榨菜、挂面（<b>严禁携带任何蛋黄、鲜肉制品、新鲜蔬果！</b>）</span></label>
+          <label class="pack-item"><input type="checkbox" data-id="p40"><span>高热量能量棒 / 巧克力（步道徒步备用）</span></label>
+        </div>
+
       </div>
     </section>
 
